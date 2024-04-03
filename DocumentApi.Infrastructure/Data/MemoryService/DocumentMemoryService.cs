@@ -1,8 +1,9 @@
-﻿using DocumentApi.Domain.Entities;
+﻿using DocumentApi.Application.Interfaces;
+using DocumentApi.Domain.Entities;
 
 namespace DocumentApi.Infrastructure.Data.MemoryService
 {
-    public class DocumentMemoryService
+    public class DocumentMemoryService : IDocumentService
     {
         public readonly static List<Document> Documents = [];
 
@@ -60,5 +61,9 @@ namespace DocumentApi.Infrastructure.Data.MemoryService
                     });
             }
         }
+
+        public List<Document> GetAll() => Documents;
+
+        public Document? GetById(Guid id) => Documents.Where(x => x.Id == id).SingleOrDefault();
     }
 }

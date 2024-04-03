@@ -8,11 +8,13 @@ namespace DocumentApi.Web
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddControllers(); // Add controllers in build - required for mapping
+
             builder.Services.AddInfrastructureServices();
 
             var app = builder.Build();
-
-            app.MapGet("/", () => "Hello World!");
+                        
+            app.MapControllers(); // Register controllers with endpoints
 
             app.Run();
         }

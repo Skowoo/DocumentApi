@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DocumentApi.Application\DocumentApi.Application.csproj" />
     <ProjectReference Include="..\DocumentApi.Domain\DocumentApi.Domain.csproj" />
   </ItemGroup>
 
