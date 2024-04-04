@@ -10,6 +10,8 @@ namespace DocumentApi.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection thisService)
         {
             thisService.AddSingleton<IDocumentService, DocumentMemoryService>();
+            thisService.AddSingleton<IClientService, DocumentMemoryService>();
+            thisService.AddSingleton<ITranslatorService, DocumentMemoryService>();
 
             return thisService;
         }

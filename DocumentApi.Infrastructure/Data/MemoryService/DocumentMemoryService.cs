@@ -3,7 +3,7 @@ using DocumentApi.Domain.Entities;
 
 namespace DocumentApi.Infrastructure.Data.MemoryService
 {
-    public class DocumentMemoryService : IDocumentService
+    public class DocumentMemoryService : IDocumentService, IClientService, ITranslatorService
     {
         public readonly static List<Document> Documents = [];
 
@@ -62,8 +62,28 @@ namespace DocumentApi.Infrastructure.Data.MemoryService
             }
         }
 
-        public List<Document> GetAll() => Documents;
+        #region Documents section
 
-        public Document? GetById(Guid id) => Documents.Where(x => x.Id == id).SingleOrDefault();
+        List<Document> IDocumentService.GetAll() => Documents;
+
+        Document? IDocumentService.GetById(Guid id) => Documents.Where(x => x.Id == id).SingleOrDefault();
+
+        #endregion
+
+        #region Clients section
+
+        List<Client> IClientService.GetAll() => Clients;
+
+        Client? IClientService.GetById(int id) => Clients.Where(x => x.Id == id).SingleOrDefault();
+
+        #endregion
+
+        #region Translators section
+
+        List<Translator> ITranslatorService.GetAll() => Translators;
+
+        Translator? ITranslatorService.GetById(int id) => Translators.Where(x => x.Id == id).SingleOrDefault();
+
+        #endregion
     }
 }
