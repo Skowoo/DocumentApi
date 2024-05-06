@@ -68,6 +68,24 @@ namespace DocumentApi.Infrastructure.Data.MemoryService
 
         Document? IDocumentService.GetById(Guid id) => Documents.Where(x => x.Id == id).SingleOrDefault();
 
+        void IDocumentService.Add(Document document) => Documents.Add(document);
+
+        void IDocumentService.Update(Document document)
+        {
+            Document? target = Documents.SingleOrDefault(x => x.Id == document.Id) 
+                ?? throw new FileNotFoundException("Document not found!");
+
+            CopyAllFields(document, target);
+        }
+
+        void IDocumentService.Delete(Document document)
+        {
+            Document? target = Documents.SingleOrDefault(x => x.Id == document.Id)
+                ?? throw new FileNotFoundException("Document not found!");
+
+            Documents.Remove(target);
+        }
+
         #endregion
 
         #region Clients section
@@ -75,6 +93,24 @@ namespace DocumentApi.Infrastructure.Data.MemoryService
         List<Client> IClientService.GetAll() => Clients;
 
         Client? IClientService.GetById(int id) => Clients.Where(x => x.Id == id).SingleOrDefault();
+
+        void IClientService.Add(Client client) => Clients.Add(client);
+
+        void IClientService.Update(Client client)
+        {
+            Client? target = Clients.FirstOrDefault(x => x.Id == client.Id) 
+                ?? throw new FileNotFoundException("Client not found!");
+
+            CopyAllFields(client, target);
+        }
+
+        void IClientService.Delete(Client client)
+        {
+            Client? target = Clients.SingleOrDefault(x => x.Id == client.Id) 
+                ?? throw new FileNotFoundException("Client not found!");
+
+            Clients.Remove(target);
+        }
 
         #endregion
 
@@ -84,6 +120,33 @@ namespace DocumentApi.Infrastructure.Data.MemoryService
 
         Translator? ITranslatorService.GetById(int id) => Translators.Where(x => x.Id == id).SingleOrDefault();
 
+        public void Add(Translator translator) => Translators.Add(translator);
+
+        public void Update(Translator translator)
+        {
+            Translator? target = Translators.SingleOrDefault(x => x.Id == translator.Id) 
+                ?? throw new FileNotFoundException("Translator not found!");
+
+            CopyAllFields(translator, target);
+        }
+
+        public void Delete(Translator translator)
+        {
+            Translator? target = Translators.SingleOrDefault(x => x.Id == translator.Id)
+                ?? throw new FileNotFoundException("Translator not found!");
+
+            Translators.Remove(target);
+        }
+
         #endregion
+
+        private static void CopyAllFields(object source, object target)
+        {
+            if (target.GetType() != source.GetType())
+                throw new ArgumentException("Given objects have different type!");
+
+            foreach (var prop in source.GetType().GetProperties())
+                prop.SetValue(target, prop.GetValue(source));
+        }
     }
 }

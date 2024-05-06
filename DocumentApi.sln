@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentApi.Application", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F7F84AF4-8147-4DD6-B4F1-40D408BC73FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", "Infrastructure.UnitTests\Infrastructure.UnitTests.csproj", "{604660C4-D5ED-4546-9080-43DC58F38E23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.UnitTests", "Infrastructure.UnitTests\Infrastructure.UnitTests.csproj", "{604660C4-D5ED-4546-9080-43DC58F38E23}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{9FCBC206-5246-4EF1-93DC-7073BB4EE6B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{9711857D-25FA-404D-9509-8CA004F32B5F} = {9FCBC206-5246-4EF1-93DC-7073BB4EE6B4}
+		{E5AC8E51-F9B0-44F0-9773-0292C84AC33F} = {9FCBC206-5246-4EF1-93DC-7073BB4EE6B4}
+		{3274CDEF-2089-4C95-9F70-B6C13CAE279A} = {9FCBC206-5246-4EF1-93DC-7073BB4EE6B4}
+		{D985DC8D-6EB5-494F-BF51-29A20825E1A8} = {9FCBC206-5246-4EF1-93DC-7073BB4EE6B4}
 		{604660C4-D5ED-4546-9080-43DC58F38E23} = {F7F84AF4-8147-4DD6-B4F1-40D408BC73FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
