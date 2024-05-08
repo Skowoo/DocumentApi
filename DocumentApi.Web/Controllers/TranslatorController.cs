@@ -1,6 +1,7 @@
 ﻿using DocumentApi.Application.Interfaces;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
 
 namespace DocumentApi.Web.Controllers
 {
@@ -28,15 +29,38 @@ namespace DocumentApi.Web.Controllers
         [HttpPut]
         public IActionResult Update(Translator document)
         {
-            service.Update(document);
-            return Ok();
+            try
+            {
+                service.Update(document);
+                return Ok();
+            }
+            catch (FileNotFoundException)
+            {
+                return NotFound();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            service.Delete(id);
-            return Ok();
+            try
+            {
+                service.Delete(id);
+                return Ok();
+            }
+            catch (FileNotFoundException)
+            {
+                return NotFound();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

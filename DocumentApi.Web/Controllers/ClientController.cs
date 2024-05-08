@@ -29,15 +29,37 @@ namespace DocumentApi.Web.Controllers
         [HttpPut]
         public IActionResult Update(Client item)
         {
-            service.Update(item);
-            return Ok();
+            try
+            {
+                service.Update(item);
+                return Ok();
+            }
+            catch (FileNotFoundException) 
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            service.Delete(id);
-            return Ok();
+            try
+            {
+                service.Delete(id);
+                return Ok();
+            }
+            catch (FileNotFoundException)
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }
