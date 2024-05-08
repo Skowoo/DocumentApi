@@ -1,7 +1,6 @@
 ﻿using DocumentApi.Application.Interfaces;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata;
 
 namespace DocumentApi.Web.Controllers
 {
@@ -22,45 +21,37 @@ namespace DocumentApi.Web.Controllers
         [HttpPost]
         public IActionResult Add(Translator item)
         {
+            if (item is null)
+                return BadRequest(item);
+
             service.Add(item);
-            return Ok(item);
+            return Created(Url.Action("Get", new { id = item.Id }), item);
         }
 
         [HttpPut]
-        public IActionResult Update(Translator document)
+        public IActionResult Update(Translator item)
         {
-            try
-            {
-                service.Update(document);
-                return Ok();
-            }
-            catch (FileNotFoundException)
-            {
+            var target = service.GetById(item.Id);
+            
+            if (target is null)
                 return NotFound();
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
 
+            service.Update(target);
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            try
-            {
-                service.Delete(id);
-                return Ok();
-            }
-            catch (FileNotFoundException)
-            {
+            var target = service.GetById(id);
+
+            if (target is null)
                 return NotFound();
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+
+            service.Delete(target.Id);
+
+            return NoContent();
         }
     }
 }

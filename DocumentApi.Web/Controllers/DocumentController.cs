@@ -21,44 +21,37 @@ namespace DocumentApi.Web.Controllers
         [HttpPost]
         public IActionResult Add(Document item)
         {
+            if (item is null)
+                return BadRequest(item);
+
             service.Add(item);
-            return Created();
+            return Created(Url.Action("Get", new { id = item.Id }), item);
         }
 
         [HttpPut]
         public IActionResult Update(Document item)
         {
-            try
-            {
-                service.Update(item);
-                return Ok();
-            }
-            catch (FileNotFoundException)
-            {
+            var target = service.GetById(item.Id);
+
+            if (target is null)
                 return NotFound();
-            }
-            catch 
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+
+            service.Update(target);
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
-            try
-            {
-                service.Delete(id);
-                return Ok();
-            }
-            catch (FileNotFoundException)
-            {
+            var target = service.GetById(id);
+
+            if (target is null)
                 return NotFound();
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+
+            service.Delete(target.Id);
+
+            return NoContent();
         }
     }
 }

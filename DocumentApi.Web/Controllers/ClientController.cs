@@ -1,6 +1,5 @@
 ﻿using DocumentApi.Application.Interfaces;
 using DocumentApi.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentApi.Web.Controllers
@@ -22,44 +21,37 @@ namespace DocumentApi.Web.Controllers
         [HttpPost]
         public IActionResult Add(Client item)
         {
+            if (item is null)
+                return BadRequest(item);
+
             service.Add(item);
-            return Ok(item);
+            return Created(Url.Action("Get", new { id = item.Id }), item);
         }
 
         [HttpPut]
         public IActionResult Update(Client item)
         {
-            try
-            {
-                service.Update(item);
-                return Ok();
-            }
-            catch (FileNotFoundException) 
-            {
-                return BadRequest();
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            var target = service.GetById(item.Id);
+
+            if (target is null)
+                return NotFound();
+
+            service.Update(target);
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            try
-            {
-                service.Delete(id);
-                return Ok();
-            }
-            catch (FileNotFoundException)
-            {
-                return BadRequest();
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            var target = service.GetById(id);
+
+            if (target is null)
+                return NotFound();
+
+            service.Delete(target.Id);
+
+            return NoContent();
         }
     }
 }
