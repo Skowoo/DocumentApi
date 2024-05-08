@@ -78,9 +78,9 @@ namespace DocumentApi.Infrastructure.Data.MemoryService
             CopyAllFields(document, target);
         }
 
-        void IDocumentService.Delete(Document document)
+        void IDocumentService.Delete(Guid id)
         {
-            Document? target = Documents.SingleOrDefault(x => x.Id == document.Id)
+            Document? target = Documents.SingleOrDefault(x => x.Id == id)
                 ?? throw new FileNotFoundException("Document not found!");
 
             Documents.Remove(target);
@@ -104,9 +104,9 @@ namespace DocumentApi.Infrastructure.Data.MemoryService
             CopyAllFields(client, target);
         }
 
-        void IClientService.Delete(Client client)
+        void IClientService.Delete(int id)
         {
-            Client? target = Clients.SingleOrDefault(x => x.Id == client.Id) 
+            Client? target = Clients.SingleOrDefault(x => x.Id == id) 
                 ?? throw new FileNotFoundException("Client not found!");
 
             Clients.Remove(target);
@@ -130,9 +130,9 @@ namespace DocumentApi.Infrastructure.Data.MemoryService
             CopyAllFields(translator, target);
         }
 
-        public void Delete(Translator translator)
+        public void Delete(int id)
         {
-            Translator? target = Translators.SingleOrDefault(x => x.Id == translator.Id)
+            Translator? target = Translators.SingleOrDefault(x => x.Id == id)
                 ?? throw new FileNotFoundException("Translator not found!");
 
             Translators.Remove(target);

@@ -9,9 +9,34 @@ namespace DocumentApi.Web.Controllers
     public class TranslatorController(ITranslatorService service) : ControllerBase
     {
         [HttpGet]
-        public List<Translator> GetAll() => service.GetAll();
+        public IActionResult GetAll() => Ok(service.GetAll());
 
         [HttpGet("{id}")]
-        public Translator? GetById (int id) => service.GetById(id);
+        public IActionResult GetById (int id)
+        {
+            var item = service.GetById(id);
+            return item is null ? NotFound() : Ok(item);
+        }
+
+        [HttpPost]
+        public IActionResult Add(Translator item)
+        {
+            service.Add(item);
+            return Ok(item);
+        }
+
+        [HttpPut]
+        public IActionResult Update(Translator document)
+        {
+            service.Update(document);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            service.Delete(id);
+            return Ok();
+        }
     }
 }

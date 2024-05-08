@@ -12,6 +12,6 @@ namespace DocumentApi.Application.Interfaces
 
         public void Update(Document document);
 
-        public void Delete(Document document);
+        public void Delete(Guid id);
     }
 }

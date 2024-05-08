@@ -8,10 +8,10 @@ namespace DocumentApi.Application.Interfaces
 
         public Translator? GetById(int id);
 
-        public void Add(Translator document);
+        public void Add(Translator translator);
 
-        public void Update(Translator document);
+        public void Update(Translator translator);
 
-        public void Delete(Translator document);
+        public void Delete(int id);
     }
 }

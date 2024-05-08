@@ -8,10 +8,10 @@ namespace DocumentApi.Application.Interfaces
 
         public Client? GetById (int id);
 
-        public void Add(Client document);
+        public void Add(Client client);
 
-        public void Update(Client document);
+        public void Update(Client client);
 
-        public void Delete(Client document);
+        public void Delete(int id);
     }
 }

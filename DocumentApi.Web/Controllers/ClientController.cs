@@ -10,9 +10,34 @@ namespace DocumentApi.Web.Controllers
     public class ClientController(IClientService service) : ControllerBase
     {
         [HttpGet]
-        public List<Client> GetAll() => service.GetAll();
+        public IActionResult GetAll() => Ok(service.GetAll());
 
         [HttpGet("{id}")]
-        public Client? GetById(int id) => service.GetById(id);
+        public IActionResult GetById(int id)
+        {
+            var item = service.GetById(id);
+            return item is null ? NotFound() : Ok(item);
+        }
+
+        [HttpPost]
+        public IActionResult Add(Client item)
+        {
+            service.Add(item);
+            return Ok(item);
+        }
+
+        [HttpPut]
+        public IActionResult Update(Client item)
+        {
+            service.Update(item);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            service.Delete(id);
+            return Ok();
+        }
     }
 }
