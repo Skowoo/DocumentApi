@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentApi.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,12 +12,12 @@ namespace DocumentApi.Web.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
-    public class IdentityController(IConfiguration configuration) : ControllerBase
+    public class IdentityController(IConfiguration configuration, IUserService identityService) : ControllerBase
     {
         [HttpPost]
         public IActionResult CreateToken(IdentityUser user)
         {
-            if (user.UserName == "User" && user.PasswordHash == "Password")
+            if (user is not null && identityService.AuthorizeUser(user.UserName!, user.PasswordHash!))
             {
                 var issuer = configuration.GetValue<string>("Jwt:Issuer");
                 var audience = configuration.GetValue<string>("Jwt:Audience");
@@ -26,8 +27,8 @@ namespace DocumentApi.Web.Controllers
                     Subject = new ClaimsIdentity(new[]
                     {
                         new Claim("Id", Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                        new Claim(JwtRegisteredClaimNames.Email, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
+                        new Claim(JwtRegisteredClaimNames.Email, user.UserName!),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                     }),
                     Expires = DateTime.UtcNow.AddHours(8),

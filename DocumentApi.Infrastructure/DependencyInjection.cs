@@ -1,6 +1,7 @@
-﻿using DocumentApi.Infrastructure.Data.MemoryService;
+﻿using Microsoft.Extensions.DependencyInjection;
 using DocumentApi.Application.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+using DocumentApi.Infrastructure.Data.MemoryService;
+using DocumentApi.Infrastructure.Identity;
 
 namespace DocumentApi.Infrastructure
 {
@@ -12,6 +13,8 @@ namespace DocumentApi.Infrastructure
             thisService.AddSingleton<IDocumentService, DocumentMemoryService>();
             thisService.AddSingleton<IClientService, DocumentMemoryService>();
             thisService.AddSingleton<ITranslatorService, DocumentMemoryService>();
+
+            thisService.AddSingleton<IUserService, UserMemoryService>();
 
             return thisService;
         }
