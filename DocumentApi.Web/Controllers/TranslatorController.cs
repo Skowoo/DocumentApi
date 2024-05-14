@@ -1,11 +1,13 @@
 ﻿using DocumentApi.Application.Interfaces;
 using DocumentApi.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentApi.Web.Controllers
 {
     [Route("api/translators")]
     [ApiController]
+    [Authorize]
     public class TranslatorController(ITranslatorService service) : ControllerBase
     {
         [HttpGet]

@@ -1,11 +1,13 @@
 ﻿using DocumentApi.Application.Interfaces;
 using DocumentApi.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentApi.Web.Controllers
 {
     [Route("api/documents/")] // Route to controller
     [ApiController]
+    [Authorize]
     public class DocumentController(IDocumentService service) : ControllerBase
     {
         [HttpGet]
