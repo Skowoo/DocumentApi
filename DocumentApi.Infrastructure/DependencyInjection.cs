@@ -3,6 +3,7 @@ using DocumentApi.Application.Interfaces;
 using DocumentApi.Infrastructure.Data.Services;
 using DocumentApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace DocumentApi.Infrastructure
 {
@@ -13,6 +14,32 @@ namespace DocumentApi.Infrastructure
         {
             // Register InMemory database
             thisService.AddDbContext<DocumentDbContext>(options => options.UseInMemoryDatabase("MemoDb"));
+
+            // Register and configure Identity options
+            thisService.AddIdentityCore<IdentityUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DocumentDbContext>();
+
+            thisService.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                options.User.RequireUniqueEmail = false;
+            });
 
             // Register services
             thisService.AddScoped<IDocumentService, DocumentService>();

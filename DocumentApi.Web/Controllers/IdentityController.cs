@@ -1,6 +1,6 @@
 ﻿using DocumentApi.Application.Interfaces;
+using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,15 +9,15 @@ using System.Text;
 
 namespace DocumentApi.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [AllowAnonymous]
     public class IdentityController(IConfiguration configuration, IUserService identityService) : ControllerBase
     {
         [HttpPost]
-        public IActionResult CreateToken(IdentityUser user)
+        public IActionResult CreateToken(AppUser user)
         {
-            if (user is not null && identityService.AuthorizeUser(user.UserName!, user.PasswordHash!))
+            if (user is not null && identityService.AuthorizeUser(user.Login!, user.Password!))
             {
                 var issuer = configuration.GetValue<string>("Jwt:Issuer");
                 var audience = configuration.GetValue<string>("Jwt:Audience");
@@ -27,8 +27,8 @@ namespace DocumentApi.Web.Controllers
                     Subject = new ClaimsIdentity(new[]
                     {
                         new Claim("Id", Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
-                        new Claim(JwtRegisteredClaimNames.Email, user.UserName!),
+                        new Claim(JwtRegisteredClaimNames.Sub, user.Login!),
+                        new Claim(JwtRegisteredClaimNames.Email, user.Password!),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                     }),
                     Expires = DateTime.UtcNow.AddHours(8),
@@ -42,6 +42,13 @@ namespace DocumentApi.Web.Controllers
                 return Ok(tokenToString);
             }
             return Unauthorized();
+        }
+
+        [HttpPost]
+        public IActionResult RegisterUser(AppUser user)
+        {
+            identityService.RegisterUser(user.Login!, user.Password!);
+            return Ok();
         }
     }
 }
