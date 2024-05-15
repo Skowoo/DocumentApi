@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using DocumentApi.Application.Interfaces;
 using DocumentApi.Infrastructure.Data.Services;
-using DocumentApi.Infrastructure.Identity;
 using DocumentApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +18,7 @@ namespace DocumentApi.Infrastructure
             thisService.AddScoped<IDocumentService, DocumentService>();
             thisService.AddScoped<IClientService, ClientService>();
             thisService.AddScoped<ITranslatorService, TranslatorService>();
-
-            thisService.AddSingleton<IUserService, UserMemoryService>();
+            thisService.AddScoped<IUserService, UserService>();
 
             return thisService;
         }
