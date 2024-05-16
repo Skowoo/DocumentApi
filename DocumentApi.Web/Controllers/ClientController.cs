@@ -7,7 +7,7 @@ namespace DocumentApi.Web.Controllers
 {
     [Route("api/clients")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ClientController(IClientService service) : ControllerBase
     {
         [HttpGet]
