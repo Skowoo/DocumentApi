@@ -3,6 +3,7 @@ using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -29,8 +30,10 @@ namespace DocumentApi.Web.Controllers
                     new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
-                foreach (var role in authResult.Item2)
-                    claims.Add(new Claim("Role", role));
+                // Add roles to JWT token:
+                claims.AddRange(authResult.Item2.Select(x => 
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, x)));
+
 
                 var issuer = configuration.GetValue<string>("Jwt:Issuer");
                 var audience = configuration.GetValue<string>("Jwt:Audience");

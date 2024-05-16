@@ -5,22 +5,20 @@ namespace DocumentApi.Infrastructure.Data.Services
 {
     public class UserService(DocumentDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager) : IUserService
     {
-        public (bool, IEnumerable<string>?) AuthorizeUser(string login, string password)
+        public (bool, IList<string>?) AuthorizeUser(string login, string password)
         {
-            bool authenticationResult = false;
-            List<string>? roles = null;
-
             var user = context.Users.SingleOrDefault(x => x.UserName == login);
             if (user is not null)
             {
                 PasswordHasher<IdentityUser> hasher = new();
                 if (hasher.VerifyHashedPassword(user, user.PasswordHash!, password) != PasswordVerificationResult.Failed)
-                    authenticationResult = true;
-
-                var getRolesCollection = userManager.GetRolesAsync(user);
-                roles = [.. getRolesCollection.Result];
+                {
+                    var getUserRoles = userManager.GetRolesAsync(user);
+                    var roles = getUserRoles.Result;                    
+                    return (true, roles);
+                }
             }
-            return (authenticationResult, roles);
+            return (false, null);
         }
 
         public bool RegisterUser(string login, string password)
