@@ -45,10 +45,6 @@ namespace DocumentApi.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterUser(AppUser user)
-        {
-            identityService.RegisterUser(user.Login!, user.Password!);
-            return Ok();
-        }
+        public IActionResult RegisterUser(AppUser user) => identityService.RegisterUser(user.Login!, user.Password!) ? Ok() : BadRequest("Creation failed!");
     }
 }

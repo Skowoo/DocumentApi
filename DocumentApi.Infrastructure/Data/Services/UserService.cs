@@ -17,14 +17,15 @@ namespace DocumentApi.Infrastructure.Data.Services
             return false;
         }
 
-        public void RegisterUser(string login, string password)
+        public bool RegisterUser(string login, string password)
         {
             IdentityUser newUser = new()
             {
                 UserName = login
             };
-            userManager.CreateAsync(newUser, password);
-
+            var creationTask = userManager.CreateAsync(newUser, password);
+            var creation = creationTask.Result;
+            return creation.Succeeded;
         }
     }
 }
