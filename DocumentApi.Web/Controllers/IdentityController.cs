@@ -16,7 +16,7 @@ namespace DocumentApi.Web.Controllers
     public class IdentityController(IConfiguration configuration, IUserService identityService) : ControllerBase
     {
         [HttpPost]
-        public IActionResult CreateToken(AppUser user)
+        public IActionResult Login(AppUser user)
         {
             var authResult = identityService.AuthorizeUser(user.Login!, user.Password!);
 
@@ -55,7 +55,7 @@ namespace DocumentApi.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterUser(AppUser user) => identityService.RegisterUser(user.Login!, user.Password!) ? Ok() : BadRequest("Creation failed!");
+        public IActionResult Register(AppUser user) => identityService.RegisterUser(user.Login!, user.Password!) ? Ok() : BadRequest("Creation failed!");
 
         [HttpPost]
         public IActionResult AddRole(string roleName) => identityService.AddRole(roleName) ? Ok(roleName) : BadRequest();

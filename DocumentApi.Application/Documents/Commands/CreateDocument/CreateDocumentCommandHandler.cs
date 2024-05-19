@@ -14,8 +14,10 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument
                 SignsSize = request.SignsSize,
                 CreatedAt = request.CreatedAt,
                 Deadline = request.Deadline,
-                ClientId = request.ClientId,
+                ClientId = request.ClientId,                
+                Client = await context.Clients.FindAsync([request.ClientId], cancellationToken),
                 TranslatorId = request.TranslatorId,
+                Translator = await context.Translators.FindAsync([request.TranslatorId], cancellationToken)
             };
 
             context.Documents.Add(newEntity);

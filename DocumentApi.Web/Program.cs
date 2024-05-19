@@ -81,6 +81,7 @@ namespace DocumentApi.Web
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.Map("/", () => Results.Redirect("/swagger"));
             }
 
             app.MapControllers(); // Register controllers with endpoints

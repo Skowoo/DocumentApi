@@ -21,7 +21,7 @@ namespace DocumentApi.Web.Controllers
         public Task<Client?> GetById(ISender sender, int id) => sender.Send(new GetClientQuery(id));
 
         [HttpPost]
-        public Task Add(ISender sender, CreateClientCommand command) => sender.Send(command);
+        public Task<int> Add(ISender sender, CreateClientCommand command) => sender.Send(command);
 
         [HttpPut]
         public Task Update(ISender sender, UpdateClientCommand command) => sender.Send(command);
