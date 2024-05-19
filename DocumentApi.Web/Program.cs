@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using DocumentApi.Web.Middleware;
 
 namespace DocumentApi.Web
 {
@@ -75,6 +76,9 @@ namespace DocumentApi.Web
             // Use Authentication and Autorization
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Register custom middleware to handle validation exceptions
+            app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 
             // Use Swagger in development mode only:
             if (app.Environment.IsDevelopment())

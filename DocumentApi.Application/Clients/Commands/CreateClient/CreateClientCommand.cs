@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using DocumentApi.Application.Common.Interfaces;
 
 namespace DocumentApi.Application.Clients.Commands.CreateClient
 {
-    public record CreateClientCommand : IRequest<int>
+    public record CreateClientCommand : ICommand<int>
     {
         public string? Name { get; set; }
 

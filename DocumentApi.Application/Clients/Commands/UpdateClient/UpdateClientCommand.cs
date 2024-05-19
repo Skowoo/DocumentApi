@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using DocumentApi.Application.Common.Interfaces;
 
 namespace DocumentApi.Application.Clients.Commands.UpdateClient
 {
-    public record UpdateClientCommand : IRequest
+    public record UpdateClientCommand : ICommand
     {
         public int Id { get; set; }
 

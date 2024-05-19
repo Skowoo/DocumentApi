@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using DocumentApi.Application.Common.Interfaces;
 
 namespace DocumentApi.Application.Documents.Commands.CreateDocument
 {
-    public record CreateDocumentCommand : IRequest<Guid>
+    public record CreateDocumentCommand : ICommand<Guid>
     {
         public string? Title { get; set; }
 

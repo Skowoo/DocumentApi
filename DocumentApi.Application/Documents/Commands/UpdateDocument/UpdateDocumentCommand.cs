@@ -1,9 +1,8 @@
-﻿using DocumentApi.Domain.Entities;
-using MediatR;
+﻿using DocumentApi.Application.Common.Interfaces;
 
 namespace DocumentApi.Application.Documents.Commands.UpdateDocument
 {
-    public record UpdateDocumentCommand : IRequest
+    public record UpdateDocumentCommand : ICommand
     {
         public Guid Id { get; set; }
 
