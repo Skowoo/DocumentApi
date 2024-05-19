@@ -1,4 +1,4 @@
-﻿namespace DocumentApi.Application.Interfaces
+﻿namespace DocumentApi.Application.Common.Interfaces
 {
     public interface IUserService
     {

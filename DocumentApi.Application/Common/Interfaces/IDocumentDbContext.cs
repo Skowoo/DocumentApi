@@ -1,7 +1,7 @@
 ﻿using DocumentApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DocumentApi.Application.Interfaces
+namespace DocumentApi.Application.Common.Interfaces
 {
     public interface IDocumentDbContext
     {

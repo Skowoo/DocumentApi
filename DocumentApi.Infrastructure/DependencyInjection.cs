@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using DocumentApi.Application.Interfaces;
 using DocumentApi.Infrastructure.Data.Services;
 using DocumentApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using DocumentApi.Application.Common.Interfaces;
 
 namespace DocumentApi.Infrastructure
 {

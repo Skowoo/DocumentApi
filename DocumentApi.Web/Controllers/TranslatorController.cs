@@ -1,59 +1,31 @@
-﻿using DocumentApi.Application.Interfaces;
+﻿using DocumentApi.Application.Translators.Commands.CreateTranslator;
+using DocumentApi.Application.Translators.Commands.DeleteTranslator;
+using DocumentApi.Application.Translators.Commands.UpdateTranslator;
+using DocumentApi.Application.Translators.Queries.GetAllTranslators;
+using DocumentApi.Application.Translators.Queries.GetTranslator;
 using DocumentApi.Domain.Entities;
-using Microsoft.AspNetCore.Authorization;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentApi.Web.Controllers
 {
     [Route("api/translators")]
     [ApiController]
-    [Authorize]
-    public class TranslatorController(ITranslatorService service) : ControllerBase
+    public class TranslatorController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GetAll() => Ok(service.GetAll());
+        public Task<List<Translator>> GetAll(ISender sender) => sender.Send(new GetAllTranslatorsQuery());
 
         [HttpGet("{id}")]
-        public IActionResult GetById (int id)
-        {
-            var item = service.GetById(id);
-            return item is null ? NotFound() : Ok(item);
-        }
+        public Task<Translator?> GetById (ISender sender, int id) => sender.Send(new GetTranslatorQuery(id));
 
         [HttpPost]
-        public IActionResult Add(Translator item)
-        {
-            if (item is null)
-                return BadRequest(item);
-
-            service.Add(item);
-            return Created(Url.Action("Get", new { id = item.Id }), item);
-        }
+        public Task<int> Add(ISender sender, CreateTranslatorCommand command) => sender.Send(command);
 
         [HttpPut]
-        public IActionResult Update(Translator item)
-        {
-            var target = service.GetById(item.Id);
-            
-            if (target is null)
-                return NotFound();
-
-            service.Update(target);
-
-            return NoContent();
-        }
+        public Task Update(ISender sender, UpdateTranslatorCommand command) => sender.Send(command);
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            var target = service.GetById(id);
-
-            if (target is null)
-                return NotFound();
-
-            service.Delete(target.Id);
-
-            return NoContent();
-        }
+        public Task Delete(ISender sender, int id) => sender.Send(new DeleteTranslatorCommand(id));
     }
 }

@@ -1,4 +1,4 @@
-﻿using DocumentApi.Application.Interfaces;
+﻿using DocumentApi.Application.Common.Interfaces;
 using MediatR;
 
 namespace DocumentApi.Application.Clients.Commands.UpdateClient

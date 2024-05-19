@@ -1,4 +1,4 @@
-﻿using DocumentApi.Application.Interfaces;
+﻿using DocumentApi.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace DocumentApi.Infrastructure.Data.Services

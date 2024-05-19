@@ -1,4 +1,4 @@
-﻿using DocumentApi.Application.Interfaces;
+﻿using DocumentApi.Application.Common.Interfaces;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,12 +1,12 @@
 ﻿using DocumentApi.Domain.Entities;
 
-namespace DocumentApi.Application.Interfaces
+namespace DocumentApi.Application.Common.Interfaces
 {
     public interface IClientService
     {
         public List<Client> GetAll();
 
-        public Client? GetById (int id);
+        public Client? GetById(int id);
 
         public void Add(Client client);
 
