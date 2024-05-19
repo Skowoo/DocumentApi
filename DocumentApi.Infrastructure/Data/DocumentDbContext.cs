@@ -1,10 +1,11 @@
-﻿using DocumentApi.Domain.Entities;
+﻿using DocumentApi.Application.Interfaces;
+using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DocumentApi.Infrastructure.Data
 {
-    public class DocumentDbContext(DbContextOptions<DocumentDbContext> options) : IdentityDbContext(options)
+    public class DocumentDbContext(DbContextOptions<DocumentDbContext> options) : IdentityDbContext(options), IDocumentDbContext
     {
         public DbSet<Document> Documents { get; set; }
 

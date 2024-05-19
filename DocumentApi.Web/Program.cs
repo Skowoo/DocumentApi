@@ -1,4 +1,5 @@
 using DocumentApi.Infrastructure;
+using DocumentApi.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -18,6 +19,7 @@ namespace DocumentApi.Web
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddInfrastructureServices();
+            builder.Services.AddApplicationServices();
 
             // Register Authentication as Jwt token
             builder.Services.AddAuthorization();
