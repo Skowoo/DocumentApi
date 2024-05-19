@@ -1,59 +1,31 @@
-﻿using DocumentApi.Application.Common.Interfaces;
+﻿using DocumentApi.Application.Documents.Commands.CreateDocument;
+using DocumentApi.Application.Documents.Commands.DeleteDocument;
+using DocumentApi.Application.Documents.Commands.UpdateDocument;
+using DocumentApi.Application.Documents.Queries.GetAllDocuments;
+using DocumentApi.Application.Documents.Queries.GetDocument;
 using DocumentApi.Domain.Entities;
-using Microsoft.AspNetCore.Authorization;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentApi.Web.Controllers
 {
     [Route("api/documents/")] // Route to controller
     [ApiController]
-    [Authorize]
-    public class DocumentController(IDocumentService service) : ControllerBase
+    public class DocumentController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GetAll() => Ok(service.GetAll());
+        public Task<List<Document>> GetAll(ISender sender) => sender.Send(new GetAllDocumentsQuery());
 
         [HttpGet("{id}")] // Endpoint adress - in parenthesis additional route element to avoid targeting multiple endpoints at once
-        public IActionResult GetById(Guid id)
-        {
-            var item = service.GetById(id);
-            return item is null ? NotFound() : Ok(item);
-        }
+        public Task<Document?> GetById(ISender sender, Guid id) => sender.Send(new GetDocumentQuery(id));
 
         [HttpPost]
-        public IActionResult Add(Document item)
-        {
-            if (item is null)
-                return BadRequest(item);
-
-            service.Add(item);
-            return Created(Url.Action("Get", new { id = item.Id }), item);
-        }
+        public Task<Guid> Add(ISender sender, CreateDocumentCommand command) => sender.Send(command);
 
         [HttpPut]
-        public IActionResult Update(Document item)
-        {
-            var target = service.GetById(item.Id);
-
-            if (target is null)
-                return NotFound();
-
-            service.Update(target);
-
-            return NoContent();
-        }
+        public Task Update(ISender sender, UpdateDocumentCommand command) => sender.Send(command);
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
-        {
-            var target = service.GetById(id);
-
-            if (target is null)
-                return NotFound();
-
-            service.Delete(target.Id);
-
-            return NoContent();
-        }
+        public Task Delete(ISender sender, Guid id) => sender.Send(new DeleteDocumentCommand(id));
     }
 }

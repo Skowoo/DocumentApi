@@ -42,11 +42,9 @@ namespace DocumentApi.Infrastructure
             });
 
             // Register services
-            thisService.AddScoped<IDocumentService, DocumentService>();
-            thisService.AddScoped<ITranslatorService, TranslatorService>();
             thisService.AddScoped<IUserService, UserService>();
 
-            // Register DbContext interface
+            // Register DbContext Interface
             thisService.AddScoped<IDocumentDbContext>(provider => provider.GetRequiredService<DocumentDbContext>());
 
             return thisService;
