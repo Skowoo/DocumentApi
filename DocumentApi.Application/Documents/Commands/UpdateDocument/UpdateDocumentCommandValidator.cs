@@ -10,7 +10,7 @@ namespace DocumentApi.Application.Documents.Commands.UpdateDocument
             RuleFor(x => x.Id)
                 .NotEmpty()
                 .Must(documentId => context.Documents.Any(document => document.Id == documentId))
-                .WithMessage("Client with given Id does not exist in database");
+                .WithMessage("Document with given Id does not exist in database");
 
             RuleFor(x => x.Title)
                 .NotEmpty();
