@@ -2,15 +2,13 @@
 using FluentValidation.TestHelper;
 using FluentAssertions;
 using DocumentApi.Application.Common.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using DocumentApi.Domain.Entities;
-using DocumentApi.Infrastructure.Data;
+using DocumentApi.ApplicationTests;
 
 namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
 {
     public class CreateDocumentCommandValidatorTests
     {
-        private readonly static IDocumentDbContext contextMock = MockDocumentDbContext;
+        private readonly IDocumentDbContext contextMock = DocumentDbContextDataFixture.GetContext();
 
         [Theory]
         [InlineData("Name", true)]
@@ -213,24 +211,6 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
                 result.ShouldHaveValidationErrorFor("TranslatorId");
                 result.Errors.Should().HaveCount(1);
                 result.Errors[0].ErrorMessage.Should().Contain(errorName);
-            }
-        }
-
-        private static IDocumentDbContext MockDocumentDbContext
-        {
-            get
-            {
-                var options = new DbContextOptionsBuilder<DocumentDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDb").Options;
-
-                var context = new DocumentDbContext(options);
-
-                context.Clients.Add(new Client { Id = 1, Name = "Klient1" });
-                context.Translators.Add(new Translator { Id = 1, Name = "Tłumacz1" });
-                context.Documents.Add(new Document { Id = Guid.Parse("01cbe5e5-ae75-4972-b741-14bf69f33f48") });
-                context.SaveChanges();
-
-                return context;
             }
         }
     }
