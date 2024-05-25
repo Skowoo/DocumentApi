@@ -21,18 +21,51 @@ namespace DocumentApi.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(AppUser user) => identityService.RegisterUser(user.Login!, user.Password!) ? Ok() : BadRequest("Creation failed!");
+        public async Task<IActionResult> Register(AppUser user)
+        {
+            var (Result, UserId) = await identityService.RegisterUser(user.Login, user.Password);
+            return Result.Succeeded ? Ok(UserId) : BadRequest(Result.Errors);
+        }
 
         [HttpPost]
-        public IActionResult AddRole(string roleName) => identityService.AddRole(roleName) ? Ok(roleName) : BadRequest();
+        public async Task<IActionResult> AddRole(string roleName)
+        {
+            var result = await identityService.AddRole(roleName);
+            return result.Succeeded ? Ok(roleName) : BadRequest(result.Errors);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> RemoveRole(string roleName)
+        {
+            var result = await identityService.RemoveRole(roleName);
+            return result.Succeeded ? Ok(roleName) : BadRequest(result.Errors);
+        }
 
         [HttpPost]
-        public IActionResult RemoveRole(string roleName) => identityService.RemoveRole(roleName) ? Ok(roleName) : BadRequest();
+        public async Task<IActionResult> AddUserToRole(string userName, string roleName)
+        {
+            var result = await identityService.AssignUserToRole(userName, roleName);
+            return result.Succeeded? Ok() : BadRequest(result.Errors);
+        }
 
-        [HttpPost]
-        public IActionResult AddUserToRole(string userName, string roleName) => identityService.AssignUserToRole(userName, roleName) ? Ok(roleName) : BadRequest();
+        [HttpDelete]
+        public async Task<IActionResult> RemoveUserFromRole(string userName, string roleName)
+        {
+            var result = await identityService.RemoveUserFromRole(userName, roleName);
+            return result.Succeeded ? Ok() : BadRequest(result.Errors);
+        }
 
-        [HttpPost]
-        public IActionResult RemoveUserFromRole(string userName, string roleName) => identityService.RemoveUserFromRole(userName, roleName) ? Ok(roleName) : BadRequest();
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers() => Ok(await identityService.GetAllUsers());
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            var result = await identityService.GetUserById(id);
+            return result is null ? BadRequest("User not found!") : Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllRoles() => Ok(await identityService.GetAllRoles());
     }
 }

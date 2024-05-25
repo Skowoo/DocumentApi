@@ -6,12 +6,18 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DocumentApi.Infrastructure.Data.Services
 {
-    public class UserService(DocumentDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : IUserService
+    public class UserService(
+        DocumentDbContext context, 
+        UserManager<IdentityUser> userManager, 
+        RoleManager<IdentityRole> roleManager, 
+        IConfiguration configuration) 
+        : IUserService
     {
-        public string? AuthorizeUser(string login, string password)
+        public async Task<string?> AuthorizeUser(string login, string password)
         {
             var user = context.Users.SingleOrDefault(x => x.UserName == login);
             if (user is not null)
@@ -19,14 +25,13 @@ namespace DocumentApi.Infrastructure.Data.Services
                 PasswordHasher<IdentityUser> hasher = new();
                 if (hasher.VerifyHashedPassword(user, user.PasswordHash!, password) != PasswordVerificationResult.Failed)
                 {
-                    var getUserRoles = userManager.GetRolesAsync(user);
-                    var roles = getUserRoles.Result;
+                    var getUserRoles = await userManager.GetRolesAsync(user);
+                    var roles = getUserRoles;
 
                     var claims = new List<Claim>()
                     {
-                        new("Id", Guid.NewGuid().ToString()),
-                        new(JwtRegisteredClaimNames.Sub, login),
-                        new(JwtRegisteredClaimNames.Email, password),
+                        new("Id", user.Id.ToString()),
+                        new(JwtRegisteredClaimNames.Sub, user.UserName!),
                         new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
@@ -54,59 +59,60 @@ namespace DocumentApi.Infrastructure.Data.Services
             return null;
         }
 
-        public bool RegisterUser(string login, string password)
+        public async Task<(IdentityResult Result, string? UserId)> RegisterUser(string login, string password)
         {
             IdentityUser newUser = new()
             {
                 UserName = login
             };
-            var creationTask = userManager.CreateAsync(newUser, password);
-            var creation = creationTask.Result;
-            return creation.Succeeded;
+            var creationTask = await userManager.CreateAsync(newUser, password);
+            return creationTask.Succeeded ? (creationTask, newUser.Id) : (creationTask, null);
         }
 
-        public bool AddRole(string roleName)
-        {            
-            var creationTask = roleManager.CreateAsync(new IdentityRole(roleName));
-            var creation = creationTask.Result;
-            return creation.Succeeded;
-        }
+        public async Task<IdentityResult> AddRole(string roleName) => await roleManager.CreateAsync(new IdentityRole(roleName));
 
-        public bool RemoveRole(string roleName)
+        public async Task<IdentityResult> RemoveRole(string roleName)
         {
             var target = context.Roles.SingleOrDefault(x => x.Name == roleName);
 
             if (target is null)
-                return false;
+                return IdentityResult.Failed(new IdentityError() { Description = "Role not found!" });
 
-            var creationTask = roleManager.DeleteAsync(target);
-            var creation = creationTask.Result;
-            return creation.Succeeded;
+            return await roleManager.DeleteAsync(target);
         }
 
-        public bool AssignUserToRole(string userName, string roleName)
+        public async Task<IdentityResult> AssignUserToRole(string userName, string roleName)
         {
             var targetUser = userManager.Users.SingleOrDefault(x => x.UserName == userName);
             var targetRole = roleManager.Roles.SingleOrDefault(x => x.Name == roleName);
 
-            if (targetRole is null || targetUser is null)
-                return false;
+            if (targetUser is null)
+                return IdentityResult.Failed(new IdentityError() { Description = "User not found!"});
 
-            var assignTask = userManager.AddToRoleAsync(targetUser, roleName);
-            var result = assignTask.Result;
-            return result.Succeeded;
+            if (targetRole is null)
+                return IdentityResult.Failed(new IdentityError() { Description = "Role not found!" });
+
+            return await userManager.AddToRoleAsync(targetUser, roleName);
         }
 
-        public bool RemoveUserFromRole(string userName, string roleName)
+        public async Task<IdentityResult> RemoveUserFromRole(string userName, string roleName)
         {
-            var result = false;
-            var targetUser = context.Users.SingleOrDefault(x => x.UserName == userName);
-            if (targetUser is not null)
-            {
-                var checkIfInRole = userManager.IsInRoleAsync(targetUser, roleName);
-                result = checkIfInRole.Result;
-            }
-            return result;
+            var targetUser = userManager.Users.SingleOrDefault(x => x.UserName == userName);
+            var targetRole = roleManager.Roles.SingleOrDefault(x => x.Name == roleName);
+
+            if (targetUser is null)
+                return IdentityResult.Failed(new IdentityError() { Description = "User not found!" });
+
+            if (targetRole is null)
+                return IdentityResult.Failed(new IdentityError() { Description = "Role not found!" });
+
+            return await userManager.RemoveFromRoleAsync(targetUser, roleName);
         }
+
+        public async Task<List<IdentityUser>> GetAllUsers() => await userManager.Users.ToListAsync();
+
+        public async Task<IdentityUser?> GetUserById(string id) => await userManager.FindByIdAsync(id);
+
+        public async Task<List<IdentityRole>> GetAllRoles() => await roleManager.Roles.ToListAsync();
     }
 }
