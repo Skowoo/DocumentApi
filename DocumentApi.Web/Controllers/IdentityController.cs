@@ -2,56 +2,22 @@
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Data;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace DocumentApi.Web.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
     [AllowAnonymous]
-    public class IdentityController(IConfiguration configuration, IUserService identityService) : ControllerBase
+    public class IdentityController(IUserService identityService) : ControllerBase
     {
         [HttpPost]
         public IActionResult Login(AppUser user)
         {
-            var authResult = identityService.AuthorizeUser(user.Login!, user.Password!);
+            var result = identityService.AuthorizeUser(user.Login, user.Password);
+            if (result is not null)
+                return Ok(result);
 
-            if (user is not null && authResult.Item1 && authResult.Item2 is not null)
-            {
-                var claims = new List<Claim>()
-                {
-                    new("Id", Guid.NewGuid().ToString()),
-                    new(JwtRegisteredClaimNames.Sub, user.Login!),
-                    new(JwtRegisteredClaimNames.Email, user.Password!),
-                    new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-                // Add roles to JWT token:
-                claims.AddRange(authResult.Item2.Select(x => 
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, x)));
-
-
-                var issuer = configuration.GetValue<string>("Jwt:Issuer");
-                var audience = configuration.GetValue<string>("Jwt:Audience");
-                var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("Jwt:Key")!);
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.UtcNow.AddHours(8),
-                    Issuer = issuer,
-                    Audience = audience,
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();                
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                var tokenToString = tokenHandler.WriteToken(token);
-                return Ok(tokenToString);
-            }
-            return BadRequest();
+            return BadRequest("Login failed!");
         }
 
         [HttpPost]

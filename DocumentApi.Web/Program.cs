@@ -1,9 +1,6 @@
 using DocumentApi.Infrastructure;
 using DocumentApi.Application;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 using DocumentApi.Web.Middleware;
 
 namespace DocumentApi.Web
@@ -19,29 +16,9 @@ namespace DocumentApi.Web
             // Add Swagger - need to download NuGet Swashbuckle.AspNetCore
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddInfrastructureServices();
+            // Register layers
+            builder.Services.AddInfrastructureServices(builder.Configuration);
             builder.Services.AddApplicationServices();
-
-            // Register Authentication as Jwt token
-            builder.Services.AddAuthorization();
-            builder.Services.AddAuthentication(options => // Parametrize authentication
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => // Parametrize token
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true
-                };
-            });
 
             // Add Swagger window for accepting Jwt Token
             builder.Services.AddSwaggerGen(section =>

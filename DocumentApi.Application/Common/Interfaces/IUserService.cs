@@ -2,7 +2,7 @@
 {
     public interface IUserService
     {
-        public (bool, IList<string>?) AuthorizeUser(string login, string password);
+        public string? AuthorizeUser(string login, string password);
 
         public bool RegisterUser(string login, string password);
 

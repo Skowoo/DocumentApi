@@ -1,11 +1,17 @@
 ﻿using DocumentApi.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Data;
 
 namespace DocumentApi.Infrastructure.Data.Services
 {
-    public class UserService(DocumentDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager) : IUserService
+    public class UserService(DocumentDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : IUserService
     {
-        public (bool, IList<string>?) AuthorizeUser(string login, string password)
+        public string? AuthorizeUser(string login, string password)
         {
             var user = context.Users.SingleOrDefault(x => x.UserName == login);
             if (user is not null)
@@ -14,11 +20,38 @@ namespace DocumentApi.Infrastructure.Data.Services
                 if (hasher.VerifyHashedPassword(user, user.PasswordHash!, password) != PasswordVerificationResult.Failed)
                 {
                     var getUserRoles = userManager.GetRolesAsync(user);
-                    var roles = getUserRoles.Result;                    
-                    return (true, roles);
+                    var roles = getUserRoles.Result;
+
+                    var claims = new List<Claim>()
+                    {
+                        new("Id", Guid.NewGuid().ToString()),
+                        new(JwtRegisteredClaimNames.Sub, login),
+                        new(JwtRegisteredClaimNames.Email, password),
+                        new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    };
+
+                    // Add roles to JWT token:
+                    claims.AddRange(roles.Select(x =>
+                        new Claim(ClaimsIdentity.DefaultRoleClaimType, x)));
+
+                    var issuer = configuration.GetValue<string>("Jwt:Issuer");
+                    var audience = configuration.GetValue<string>("Jwt:Audience");
+                    var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("Jwt:Key")!);
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity(claims),
+                        Expires = DateTime.UtcNow.AddHours(8),
+                        Issuer = issuer,
+                        Audience = audience,
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
+                    };
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var token = tokenHandler.CreateToken(tokenDescriptor);
+                    var tokenToString = tokenHandler.WriteToken(token);
+                    return tokenToString;
                 }
             }
-            return (false, null);
+            return null;
         }
 
         public bool RegisterUser(string login, string password)
