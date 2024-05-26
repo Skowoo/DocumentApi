@@ -2,12 +2,13 @@ using DocumentApi.Infrastructure;
 using DocumentApi.Application;
 using Microsoft.OpenApi.Models;
 using DocumentApi.Web.Middleware;
+using DocumentApi.Infrastructure.Data;
 
 namespace DocumentApi.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -59,10 +60,11 @@ namespace DocumentApi.Web
 
             // Use Swagger in development mode only:
             if (app.Environment.IsDevelopment())
-            {
+            {                
                 app.UseSwagger();
                 app.UseSwaggerUI();
                 app.Map("/", () => Results.Redirect("/swagger"));
+                await app.SeedDatabaseAsync();
             }
 
             app.MapControllers(); // Register controllers with endpoints

@@ -20,7 +20,7 @@ namespace DocumentApi.Infrastructure
             thisService.AddIdentityModule();
             thisService.AddJwtAuthentication(configuration);
 
-
+            thisService.AddScoped<DbInitializer>();
             thisService.AddScoped<IUserService, UserService>();
 
 
