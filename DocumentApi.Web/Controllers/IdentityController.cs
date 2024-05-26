@@ -11,13 +11,10 @@ namespace DocumentApi.Web.Controllers
     public class IdentityController(IUserService identityService) : ControllerBase
     {
         [HttpPost]
-        public IActionResult Login(AppUser user)
+        public async Task<IActionResult> Login(AppUser user)
         {
-            var result = identityService.AuthorizeUser(user.Login, user.Password);
-            if (result is not null)
-                return Ok(result);
-
-            return BadRequest("Login failed!");
+            var (result, token) = await identityService.AuthorizeUser(user.Login, user.Password);
+            return result.Succeeded ? Ok(token) : BadRequest(result.Errors);
         }
 
         [HttpPost]

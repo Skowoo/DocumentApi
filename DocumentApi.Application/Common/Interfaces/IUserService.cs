@@ -4,7 +4,7 @@ namespace DocumentApi.Application.Common.Interfaces
 {
     public interface IUserService
     {
-        Task<string?> AuthorizeUser(string login, string password);
+        Task<(IdentityResult Result, string? Token)> AuthorizeUser(string login, string password);
 
         Task<(IdentityResult Result, string? UserId)> RegisterUser(string login, string password);
 
