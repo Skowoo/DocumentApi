@@ -6,9 +6,13 @@ namespace ClientApplication.Pages.Common
 {
     public class LogoutModel(CurrentUser user) : PageModel
     {
+        [BindProperty]
+        public string? Login { get; set; }
+
         public IActionResult OnGet()
         {
-            user.Logout();
+            Login = user.Login!;
+            user.LogOutUser();
             return RedirectToPage("/Common/Login");
         }
     }

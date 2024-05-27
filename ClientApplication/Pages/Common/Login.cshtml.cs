@@ -25,7 +25,7 @@ namespace ClientApplication.Pages.AdminPanel
             var result = client.ExecutePostAsync(request).Result;
             if (result.IsSuccessStatusCode)
             {
-                user.LogUser(result.Content!);
+                user.LogInUser(result.Content!);
                 return RedirectToPage("/Index");
             }
             return Page();            
