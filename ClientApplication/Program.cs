@@ -1,3 +1,5 @@
+using ClientApplication.Config;
+
 namespace ClientApplication
 {
     public class Program
@@ -8,6 +10,11 @@ namespace ClientApplication
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
+            var apiConfigSection = builder.Configuration.GetSection("DocumentApiConfig");
+            builder.Services.Configure<DocumentApiConfig>(apiConfigSection);
+
+            builder.Services.AddSingleton<JwtTokenStorage>();
 
             var app = builder.Build();
 
