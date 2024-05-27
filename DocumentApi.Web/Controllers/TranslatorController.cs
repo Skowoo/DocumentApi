@@ -3,14 +3,17 @@ using DocumentApi.Application.Translators.Commands.DeleteTranslator;
 using DocumentApi.Application.Translators.Commands.UpdateTranslator;
 using DocumentApi.Application.Translators.Queries.GetAllTranslators;
 using DocumentApi.Application.Translators.Queries.GetTranslator;
+using DocumentApi.Domain.Constants;
 using DocumentApi.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentApi.Web.Controllers
 {
-    [Route("api/translators")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = $"{Roles.User},{Roles.Administrator}")]
     public class TranslatorController : ControllerBase
     {
         [HttpGet]

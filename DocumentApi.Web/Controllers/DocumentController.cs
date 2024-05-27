@@ -3,14 +3,17 @@ using DocumentApi.Application.Documents.Commands.DeleteDocument;
 using DocumentApi.Application.Documents.Commands.UpdateDocument;
 using DocumentApi.Application.Documents.Queries.GetAllDocuments;
 using DocumentApi.Application.Documents.Queries.GetDocument;
+using DocumentApi.Domain.Constants;
 using DocumentApi.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentApi.Web.Controllers
 {
-    [Route("api/documents/")] // Route to controller
+    [Route("api/[controller]/[action]")] // Route to controller
     [ApiController]
+    [Authorize(Roles = $"{Roles.User},{Roles.Administrator}")]
     public class DocumentController : ControllerBase
     {
         [HttpGet]

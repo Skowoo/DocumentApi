@@ -67,6 +67,7 @@ namespace DocumentApi.Infrastructure.Data
             var user = await userManager.FindByNameAsync("User");
 
             await userManager.AddToRoleAsync(admin!, Roles.Administrator);
+            await userManager.AddToRoleAsync(admin!, Roles.User);
             await userManager.AddToRoleAsync(user!, Roles.User);
         }
 

@@ -1,4 +1,5 @@
 ﻿using DocumentApi.Application.Common.Interfaces;
+using DocumentApi.Domain.Constants;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +8,10 @@ namespace DocumentApi.Web.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize(Roles = Roles.Administrator)]
     public class IdentityController(IUserService identityService) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(AppUser user)
         {
@@ -17,6 +19,7 @@ namespace DocumentApi.Web.Controllers
             return result.Succeeded ? Ok(token) : BadRequest(result.Errors);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Register(AppUser user)
         {

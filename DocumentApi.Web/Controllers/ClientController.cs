@@ -3,6 +3,7 @@ using DocumentApi.Application.Clients.Commands.DeleteClient;
 using DocumentApi.Application.Clients.Commands.UpdateClient;
 using DocumentApi.Application.Clients.Queries.GetAllClients;
 using DocumentApi.Application.Clients.Queries.GetClient;
+using DocumentApi.Domain.Constants;
 using DocumentApi.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,8 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentApi.Web.Controllers
 {
-    [Route("api/clients")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = $"{Roles.User},{Roles.Administrator}")]
     public class ClientController() : ControllerBase
     {
         [HttpGet]
