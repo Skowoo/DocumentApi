@@ -7,7 +7,7 @@ using RestSharp;
 
 namespace ClientApplication.Pages.AdminPanel
 {
-    public class IndexModel(JwtTokenStorage tokenStorage, IOptions<DocumentApiConfig> apiConfig) : PageModel
+    public class LoginModel(CurrentUser user, IOptions<DocumentApiConfig> apiConfig) : PageModel
     {
         public void OnGet() => Page();
 
@@ -25,12 +25,10 @@ namespace ClientApplication.Pages.AdminPanel
             var result = client.ExecutePostAsync(request).Result;
             if (result.IsSuccessStatusCode)
             {
-                tokenStorage.SetToken(result.Content!);
+                user.LogUser(result.Content!);
+                return RedirectToPage("/Index");
             }
-
-            var token = tokenStorage.GetToken();
-
-            return RedirectToPage("/Index");
+            return Page();            
         }
     }
 }

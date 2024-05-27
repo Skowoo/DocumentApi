@@ -14,7 +14,7 @@ namespace ClientApplication
             var apiConfigSection = builder.Configuration.GetSection("DocumentApiConfig");
             builder.Services.Configure<DocumentApiConfig>(apiConfigSection);
 
-            builder.Services.AddSingleton<JwtTokenStorage>();
+            builder.Services.AddSingleton<CurrentUser>();
 
             var app = builder.Build();
 

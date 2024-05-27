@@ -1,10 +1,19 @@
 ﻿@page
+@using ClientApplication.Config
+@inject CurrentUser storage;
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @if (storage.IsValid)
+    {
+        <h1 class="display-4">Welcome, @(storage.Login)</h1>
+    }
+    else
+    {
+        <h1 class="display-4">Welcome</h1>
+        <a class="display-6" asp-page="Common/Login">Zaloguj się!</a>
+    }
 </div>
