@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace ClientApplication.Config
 {
@@ -16,10 +17,10 @@ namespace ClientApplication.Config
 
         public void LogInUser(string input) 
         {
-            var token = input.Trim()[1..^1];
-            Token = $"Bearer {input}";
+            var deserializedToken = JsonConvert.DeserializeObject<string>(input);
+            Token = $"Bearer {deserializedToken}";
             var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(token);
+            var jwtSecurityToken = handler.ReadJwtToken(deserializedToken);
             Id = jwtSecurityToken.Claims.First(c => c.Type == "Id").Value;
             Login = jwtSecurityToken.Claims.First(c => c.Type == "sub").Value;
             Roles = jwtSecurityToken.Claims.Where(c => c.Type == "role").Select(x => x.Value).ToList();

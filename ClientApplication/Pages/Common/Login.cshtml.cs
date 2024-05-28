@@ -1,7 +1,9 @@
 using ClientApplication.Config;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 
@@ -28,6 +30,14 @@ namespace ClientApplication.Pages.AdminPanel
                 user.LogInUser(result.Content!);
                 return RedirectToPage("/Index");
             }
+            else if (result.Content is not null)
+            {
+                var errors = JsonConvert.DeserializeObject<IEnumerable<IdentityError>>(result.Content);
+                foreach (var error in errors!)
+                    ModelState.AddModelError(error.Code ??= "Custom", error.Description);
+                return Page();
+            }
+
             return Page();            
         }
     }
