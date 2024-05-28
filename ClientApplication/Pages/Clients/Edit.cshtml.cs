@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using RestSharp.Authenticators;
 using RestSharp;
 using ClientApplication.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace ClientApplication.Pages.Clients
 {
@@ -58,10 +59,17 @@ namespace ClientApplication.Pages.Clients
             {
                 return RedirectToPage($"/Clients/Details", new { id = Client.Id });
             }
-            else
+            else if(response.Content is not null)
             {
-                return Page();
+                var errors = JObject.Parse(response.Content)["Errors"];
+                foreach(var error in errors!)
+                {
+                    string propertyName = $"{nameof(Client)}.{error["propertyName"]}";
+                    string errorMessage = error["errorMessage"]!.ToString();
+                    ModelState.TryAddModelError(propertyName, errorMessage);
+                }
             }
+            return Page();
         }
     }
 }

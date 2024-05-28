@@ -1,17 +1,19 @@
-using ClientApplication.Config;
-using DocumentApi.Domain.Constants;
 using DocumentApi.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using RestSharp;
 using RestSharp.Authenticators;
+using RestSharp;
+using ClientApplication.Domain;
+using ClientApplication.Config;
+using Microsoft.Extensions.Options;
 
 namespace ClientApplication.Pages.Clients
 {
-    public class DetailsModel(CurrentUser user, IOptions<DocumentApiConfig> apiConfig) : PageModel
+    public class DeleteModel(CurrentUser user, IOptions<DocumentApiConfig> apiConfig) : PageModel
     {
-        public Client Client = new();
+        [BindProperty]
+        public Client Client { get; set; } = default!;
 
         public void OnGet(int id)
         {
@@ -25,7 +27,7 @@ namespace ClientApplication.Pages.Clients
             var client = new RestClient(options);
             var request = new RestRequest($"Client/GetById/{id}");
             var response = client.ExecuteAsync(request, Method.Get).Result;
-            if(response.IsSuccessStatusCode && response.Content is not null)
+            if (response.IsSuccessStatusCode && response.Content is not null)
             {
                 var downloadedEntity = JsonConvert.DeserializeObject<Client>(response.Content)!;
                 if (downloadedEntity is null)
@@ -33,6 +35,22 @@ namespace ClientApplication.Pages.Clients
                 else
                     Client = downloadedEntity;
             }
+        }
+
+        public IActionResult OnPost(int id)
+        {
+            var options = new RestClientOptions(apiConfig.Value.FullApiUri)
+            {
+                Authenticator = new JwtAuthenticator(user.Token!)
+            };
+            var client = new RestClient(options);
+            var request = new RestRequest($"/Client/Delete/{id}", Method.Delete);
+            var response = client.ExecuteAsync(request, Method.Delete).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToPage("/Clients/Index");
+            }
+            return Page();
         }
     }
 }

@@ -3,6 +3,8 @@ using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -35,10 +37,18 @@ namespace ClientApplication.Pages.Clients
             {
                 return RedirectToPage("/Clients/Index");
             }                
-            else
+            else if(response.Content is not null)
             {                
-                return Page();
+                var errors = JObject.Parse(response.Content)["Errors"];
+                if (errors is not null)
+                    foreach (var error in errors)
+                    {
+                        string propertyName = $"{nameof(Client)}.{error["propertyName"]}";
+                        string errorMessage = error["errorMessage"]!.ToString();
+                        ModelState.TryAddModelError(propertyName, errorMessage);
+                    }
             }
+            return Page();
         }
     }
 }
