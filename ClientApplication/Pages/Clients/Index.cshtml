@@ -3,3 +3,45 @@
 @{
 }
 <h1>Klienci</h1>
+<p>
+    <a class="btn btn-primary" asp-page="Create">Dodaj Klienta</a>
+</p>
+<table class="table">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BaseEntity.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BaseEntity.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BaseEntity.TelephoneNumber)
+            </th>
+            <th>
+                Akcje
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ClientsList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TelephoneNumber)
+                </td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edytuj</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
