@@ -1,0 +1,46 @@
+﻿@page
+@model ClientApplication.Pages.Documents.DetailsModel
+@{
+}
+<h1>@Html.DisplayFor(x => x.CurrentEntity.Title) - Szczegóły</h1>
+<div asp-validation-summary="All" class="text-danger"></div>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.SignsSize)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.SignsSize)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.CreatedAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.Deadline)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.Deadline)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Index">Powróć do listy</a> |
+    <a asp-page="./Edit" asp-route-id="@Model.CurrentEntity.Id">Edytuj</a> |
+    <a asp-page="./Delete" asp-route-id="@Model.CurrentEntity.Id">Usuń</a>
+</div>

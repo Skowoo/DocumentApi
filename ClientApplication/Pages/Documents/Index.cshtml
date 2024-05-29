@@ -3,3 +3,50 @@
 @{
 }
 <h1>Dokumenty</h1>
+<p>
+    <a class="btn btn-primary" asp-page="Create">Dodaj Dokument</a>
+</p>
+<table class="table">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BaseEntity.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BaseEntity.SignsSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BaseEntity.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BaseEntity.Deadline)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DocumentsList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SignsSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deadline)
+                </td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
