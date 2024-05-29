@@ -1,0 +1,46 @@
+﻿@page
+@model ClientApplication.Pages.Documents.CreateModel
+@{
+}
+<h1>Dodaj Dokument</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary=All class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Document.Title" class="control-label"></label>
+                <input asp-for="Document.Title" class="form-control" />
+                <span asp-validation-for="Document.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Document.SignsSize" class="control-label"></label>
+                <input asp-for="Document.SignsSize" class="form-control" />
+                <span asp-validation-for="Document.SignsSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Document.Deadline" class="control-label"></label>
+                <input asp-for="Document.Deadline" class="form-control" />
+                <span asp-validation-for="Document.Deadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Document.ClientId" class="control-label"></label>
+                <select asp-for="Document.ClientId" class="form-control" asp-items="Model.ClientsList"> </select>
+                <span asp-validation-for="Document.ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Document.TranslatorId" class="control-label"></label>
+                <select asp-for="Document.TranslatorId" class="form-control" asp-items="Model.TranslatorsList"> </select>
+                <span asp-validation-for="Document.TranslatorId" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Dodaj klienta" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div>
+    <a asp-page="Index">Powrót</a>
+</div>

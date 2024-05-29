@@ -1,0 +1,48 @@
+﻿@page
+@model ClientApplication.Pages.Documents.DeleteModel
+@{
+}
+<h1>Usuń dokument - @Html.DisplayFor(x => x.CurrentEntity.Title)</h1>
+<div asp-validation-summary="All" class="text-danger"></div>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.SignsSize)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.SignsSize)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.CreatedAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.CurrentEntity.Deadline)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.CurrentEntity.Deadline)
+        </dd>
+    </dl>
+</div>
+<div>
+    <form method="post">
+        <a class="btn btn-primary" asp-page="./Details" asp-route-id="@Model.CurrentEntity.Id">Anuluj</a> |
+        <input type="hidden" asp-for="CurrentEntity.Id" />
+        <input class="btn btn-danger" type="submit" value="Usuń @Html.DisplayFor(model => model.CurrentEntity.Title)" />
+    </form>
+</div>
