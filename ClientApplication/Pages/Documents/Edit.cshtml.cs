@@ -9,10 +9,11 @@ using RestSharp;
 using ClientApplication.Config;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using ClientApplication.Interfaces;
 
 namespace ClientApplication.Pages.Documents
 {
-    public class EditModel(CurrentUser user, IOptions<DocumentApiConfig> apiConfig) : PageModel
+    public class EditModel(CurrentUser user, IOptions<DocumentApiConfig> apiConfig, IApiTranslatorService translatorService) : PageModel
     {
         [BindProperty]
         public Document Document { get; set; } = default!;
@@ -21,7 +22,7 @@ namespace ClientApplication.Pages.Documents
 
         public SelectList TranslatorsList { get; set; } = default!;
 
-        public void OnGet(string id)
+        public async Task OnGetAsync(string id)
         {
             if (!user.IsInRole(Roles.User))
                 RedirectToPage("/Index");
@@ -42,20 +43,8 @@ namespace ClientApplication.Pages.Documents
                     Document = downloadedEntity;
             }
 
-            List<Translator> allTranslators = [];
-            options = new RestClientOptions(apiConfig.Value.FullApiUri)
-            {
-                Authenticator = new JwtAuthenticator(user.Token!)
-            };
-            client = new RestClient(options);
-            request = new RestRequest("/Translator/GetAll", Method.Get);
-            response = client.ExecuteAsync(request).Result;
-            if (response.IsSuccessStatusCode && response.Content is not null)
-            {
-                allTranslators = JsonConvert.DeserializeObject<List<Translator>>(response.Content!)!;
-            }
-
-            TranslatorsList = new SelectList(allTranslators, nameof(Translator.Id), nameof(Translator.Name));
+            var translatorsResult = await translatorService.GetAll();
+            TranslatorsList = new SelectList(translatorsResult.Value, nameof(Translator.Id), nameof(Translator.Name));
 
             List<Client> allClients = [];
             options = new RestClientOptions(apiConfig.Value.FullApiUri)
@@ -109,20 +98,9 @@ namespace ClientApplication.Pages.Documents
                         ModelState.TryAddModelError(propertyName, errorMessage);
                     }
 
-                List<Translator> allTranslators = [];
-                options = new RestClientOptions(apiConfig.Value.FullApiUri)
-                {
-                    Authenticator = new JwtAuthenticator(user.Token!)
-                };
-                client = new RestClient(options);
-                request = new RestRequest("/Translator/GetAll", Method.Get);
-                response = client.ExecuteAsync(request).Result;
-                if (response.IsSuccessStatusCode && response.Content is not null)
-                {
-                    allTranslators = JsonConvert.DeserializeObject<List<Translator>>(response.Content!)!;
-                }
 
-                TranslatorsList = new SelectList(allTranslators, nameof(Translator.Id), nameof(Translator.Name));
+                var translatorsResult = await translatorService.GetAll();
+                TranslatorsList = new SelectList(translatorsResult.Value, nameof(Translator.Id), nameof(Translator.Name));
 
                 List<Client> allClients = [];
                 options = new RestClientOptions(apiConfig.Value.FullApiUri)

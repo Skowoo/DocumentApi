@@ -1,4 +1,6 @@
 using ClientApplication.Config;
+using ClientApplication.Interfaces;
+using ClientApplication.Services;
 
 namespace ClientApplication
 {
@@ -12,6 +14,7 @@ namespace ClientApplication
             builder.Services.Configure<DocumentApiConfig>(apiConfigSection);
 
             builder.Services.AddSingleton<CurrentUser>();
+            builder.Services.AddTransient<IApiTranslatorService, ApiTranslatorService>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();

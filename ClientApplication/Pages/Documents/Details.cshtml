@@ -37,30 +37,32 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(x => x.CurrentEntity.Deadline)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(x => x.CurrentEntity.Client.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(x => x.CurrentEntity.Client.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(x => x.CurrentEntity.Client.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(x => x.CurrentEntity.Client.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(x => x.CurrentEntity.Client.TelephoneNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(x => x.CurrentEntity.Client.TelephoneNumber)
-        </dd>
         @if(Model.CurrentEntity.Translator is not null){
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(x => x.CurrentEntity.Translator.Name)
+                @Html.DisplayNameFor(x => x.CurrentEntity.Client!.Name)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(x => x.CurrentEntity.Translator.Name)
+                @Html.DisplayFor(x => x.CurrentEntity.Client!.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(x => x.CurrentEntity.Client!.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(x => x.CurrentEntity.Client!.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(x => x.CurrentEntity.Client!.TelephoneNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(x => x.CurrentEntity.Client!.TelephoneNumber)
+            </dd>
+        }
+        @if(Model.CurrentEntity.Translator is not null){
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(x => x.CurrentEntity.Translator!.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(x => x.CurrentEntity.Translator!.Name)
             </dd>
         }
     </dl>
