@@ -1,5 +1,5 @@
 using ClientApplication.Config;
-using ClientApplication.Domain;
+using DocumentApi.Domain.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,7 +29,7 @@ namespace ClientApplication.Pages.AdminPanel
             var response = client.ExecuteAsync<List<IdentityUser>>(request).Result;
             if (response.IsSuccessStatusCode)
             {
-                var deserialized = JsonConvert.DeserializeObject<List<IdentityUser>>(response.Content!);
+                _ = JsonConvert.DeserializeObject<List<IdentityUser>>(response.Content!);
             }
         }
     }

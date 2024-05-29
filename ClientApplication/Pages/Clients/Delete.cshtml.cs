@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using RestSharp.Authenticators;
 using RestSharp;
-using ClientApplication.Domain;
 using ClientApplication.Config;
 using Microsoft.Extensions.Options;
+using DocumentApi.Domain.Constants;
 
 namespace ClientApplication.Pages.Clients
 {

@@ -6,8 +6,8 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp.Authenticators;
 using RestSharp;
-using ClientApplication.Domain;
 using Newtonsoft.Json.Linq;
+using DocumentApi.Domain.Constants;
 
 namespace ClientApplication.Pages.Clients
 {

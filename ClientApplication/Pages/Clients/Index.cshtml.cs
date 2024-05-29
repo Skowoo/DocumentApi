@@ -1,5 +1,5 @@
 using ClientApplication.Config;
-using ClientApplication.Domain;
+using DocumentApi.Domain.Constants;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;

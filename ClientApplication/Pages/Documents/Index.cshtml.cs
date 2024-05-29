@@ -1,5 +1,5 @@
 using ClientApplication.Config;
-using ClientApplication.Domain;
+using DocumentApi.Domain.Constants;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ClientApplication.Pages.Documents
