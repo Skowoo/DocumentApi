@@ -3,3 +3,32 @@
 @{
 }
 <h1>Tłumacze</h1>
+<p>
+    <a class="btn btn-primary" asp-page="Create">Dodaj Tłumacza</a>
+</p>
+<table class="table">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(x => Model.BaseEntity.Name)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Translators)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(x => item.Name)
+                </td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">Szczegóły</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

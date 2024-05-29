@@ -1,0 +1,28 @@
+﻿@page
+@model ClientApplication.Pages.Translators.DetailsModel
+@{
+}
+<h1>@Html.DisplayFor(model => model.Translator.Name) - Szczegóły</h1>
+<div asp-validation-summary="All" class="text-danger"></div>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.Translator.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.Translator.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.Translator.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.Translator.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Index">Powróć do listy</a> |
+    <a asp-page="./Edit" asp-route-id="@Model.Translator.Id">Edytuj</a> |
+    <a asp-page="./Delete" asp-route-id="@Model.Translator.Id">Usuń</a>
+</div>

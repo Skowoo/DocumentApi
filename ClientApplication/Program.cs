@@ -8,13 +8,13 @@ namespace ClientApplication
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddRazorPages();
-
             var apiConfigSection = builder.Configuration.GetSection("DocumentApiConfig");
             builder.Services.Configure<DocumentApiConfig>(apiConfigSection);
 
             builder.Services.AddSingleton<CurrentUser>();
+
+            // Add services to the container.
+            builder.Services.AddRazorPages();
 
             var app = builder.Build();
 
