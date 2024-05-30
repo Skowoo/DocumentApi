@@ -2,47 +2,47 @@
 @model ClientApplication.Pages.Documents.DeleteModel
 @{
 }
-<h1>Usuń dokument - @Html.DisplayFor(x => x.CurrentEntity.Title)</h1>
+<h1>Usuń dokument - @Html.DisplayFor(x => x.Document.Title)</h1>
 <div asp-validation-summary="All" class="text-danger"></div>
 <div>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(x => x.CurrentEntity.Id)
+            @Html.DisplayNameFor(x => x.Document.Id)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(x => x.CurrentEntity.Id)
+            @Html.DisplayFor(x => x.Document.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(x => x.CurrentEntity.Title)
+            @Html.DisplayNameFor(x => x.Document.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(x => x.CurrentEntity.Title)
+            @Html.DisplayFor(x => x.Document.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(x => x.CurrentEntity.SignsSize)
+            @Html.DisplayNameFor(x => x.Document.SignsSize)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(x => x.CurrentEntity.SignsSize)
+            @Html.DisplayFor(x => x.Document.SignsSize)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(x => x.CurrentEntity.CreatedAt)
+            @Html.DisplayNameFor(x => x.Document.CreatedAt)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(x => x.CurrentEntity.CreatedAt)
+            @Html.DisplayFor(x => x.Document.CreatedAt)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(x => x.CurrentEntity.Deadline)
+            @Html.DisplayNameFor(x => x.Document.Deadline)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(x => x.CurrentEntity.Deadline)
+            @Html.DisplayFor(x => x.Document.Deadline)
         </dd>
     </dl>
 </div>
 <div>
     <form method="post">
-        <a class="btn btn-primary" asp-page="./Details" asp-route-id="@Model.CurrentEntity.Id">Anuluj</a> |
-        <input type="hidden" asp-for="CurrentEntity.Id" />
-        <input class="btn btn-danger" type="submit" value="Usuń @Html.DisplayFor(model => model.CurrentEntity.Title)" />
+        <a class="btn btn-primary" asp-page="./Details" asp-route-id="@Model.Document.Id">Anuluj</a> |
+        <input type="hidden" asp-for="Document.Id" />
+        <input class="btn btn-danger" type="submit" value="Usuń @Html.DisplayFor(model => model.Document.Title)" />
     </form>
 </div>

@@ -17,6 +17,7 @@ namespace ClientApplication
 
             builder.Services.AddTransient<IApiTranslatorService, ApiTranslatorService>();
             builder.Services.AddTransient<IApiClientService, ApiClientService>();
+            builder.Services.AddTransient<IApiDocumentService, ApiDocumentService>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();
