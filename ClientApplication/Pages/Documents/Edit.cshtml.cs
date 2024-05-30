@@ -13,7 +13,7 @@ using ClientApplication.Interfaces;
 
 namespace ClientApplication.Pages.Documents
 {
-    public class EditModel(CurrentUser user, IOptions<DocumentApiConfig> apiConfig, IApiTranslatorService translatorService) : PageModel
+    public class EditModel(CurrentUser user, IOptions<DocumentApiConfig> apiConfig, IApiTranslatorService translatorService, IApiClientService clientService) : PageModel
     {
         [BindProperty]
         public Document Document { get; set; } = default!;
@@ -46,20 +46,8 @@ namespace ClientApplication.Pages.Documents
             var translatorsResult = await translatorService.GetAll();
             TranslatorsList = new SelectList(translatorsResult.Value, nameof(Translator.Id), nameof(Translator.Name));
 
-            List<Client> allClients = [];
-            options = new RestClientOptions(apiConfig.Value.FullApiUri)
-            {
-                Authenticator = new JwtAuthenticator(user.Token!)
-            };
-            client = new RestClient(options);
-            request = new RestRequest("/Client/GetAll", Method.Get);
-            response = client.ExecuteAsync(request).Result;
-            if (response.Content is not null && response.IsSuccessStatusCode)
-            {
-                allClients = JsonConvert.DeserializeObject<List<Client>>(response.Content)!;
-            }
-
-            ClientsList = new SelectList(allClients, nameof(Client.Id), nameof(Client.Name));
+            var clientsResult = await clientService.GetAll();
+            ClientsList = new SelectList(clientsResult.Value, nameof(Client.Id), nameof(Client.Name));
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -102,20 +90,8 @@ namespace ClientApplication.Pages.Documents
                 var translatorsResult = await translatorService.GetAll();
                 TranslatorsList = new SelectList(translatorsResult.Value, nameof(Translator.Id), nameof(Translator.Name));
 
-                List<Client> allClients = [];
-                options = new RestClientOptions(apiConfig.Value.FullApiUri)
-                {
-                    Authenticator = new JwtAuthenticator(user.Token!)
-                };
-                client = new RestClient(options);
-                request = new RestRequest("/Client/GetAll", Method.Get);
-                response = client.ExecuteAsync(request).Result;
-                if (response.Content is not null && response.IsSuccessStatusCode)
-                {
-                    allClients = JsonConvert.DeserializeObject<List<Client>>(response.Content)!;
-                }
-
-                ClientsList = new SelectList(allClients, nameof(Client.Id), nameof(Client.Name));
+                var clientsResult = await clientService.GetAll();
+                ClientsList = new SelectList(clientsResult.Value, nameof(Client.Id), nameof(Client.Name));
             }
             return Page();
         }

@@ -14,7 +14,9 @@ namespace ClientApplication
             builder.Services.Configure<DocumentApiConfig>(apiConfigSection);
 
             builder.Services.AddSingleton<CurrentUser>();
+
             builder.Services.AddTransient<IApiTranslatorService, ApiTranslatorService>();
+            builder.Services.AddTransient<IApiClientService, ApiClientService>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();

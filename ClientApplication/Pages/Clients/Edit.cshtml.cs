@@ -1,74 +1,35 @@
-using ClientApplication.Config;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using RestSharp.Authenticators;
-using RestSharp;
-using Newtonsoft.Json.Linq;
-using DocumentApi.Domain.Constants;
+using ClientApplication.Interfaces;
 
 namespace ClientApplication.Pages.Clients
 {
-    public class EditModel(CurrentUser user, IOptions<DocumentApiConfig> apiConfig) : PageModel
+    public class EditModel(IApiClientService clientService) : PageModel
     {
         [BindProperty]
         public Client Client { get; set; } = default!;
 
-        public void OnGet(int id)
+        public async Task OnGetAsync(int id)
         {
-            if (!user.IsInRole(Roles.User))
-                RedirectToPage("/Index");
+            var result = await clientService.GetById(id);
 
-            var options = new RestClientOptions(apiConfig.Value.FullApiUri)
-            {
-                Authenticator = new JwtAuthenticator(user.Token!)
-            };
-            var client = new RestClient(options);
-            var request = new RestRequest($"Client/GetById/{id}");
-            var response = client.ExecuteAsync(request, Method.Get).Result;
-            if (response.IsSuccessStatusCode && response.Content is not null)
-            {
-                var downloadedEntity = JsonConvert.DeserializeObject<Client>(response.Content)!;
-                if (downloadedEntity is null)
-                    ModelState.TryAddModelError("Client", "Client not found");
-                else
-                    Client = downloadedEntity;
-            }
+            if (result.Success)
+                Client = result.Value!;
+            else
+                foreach (var error in result.Errors!)
+                    ModelState.TryAddModelError(error.Property, error.Message);
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var options = new RestClientOptions(apiConfig.Value.FullApiUri)
-            {
-                Authenticator = new JwtAuthenticator(user.Token!)
-            };
-            var client = new RestClient(options);
-            var request = new RestRequest("/Client/Update", Method.Put);
-            var payload = new
-            {
-                Client.Id,
-                Client.Name,
-                Client.Email,
-                Client.TelephoneNumber,
-            };
-            request.AddBody(payload);
-            var response = await client.ExecuteAsync(request);
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToPage($"/Clients/Details", new { id = Client.Id });
-            }
-            else if(response.Content is not null)
-            {
-                var errors = JObject.Parse(response.Content)["Errors"];
-                foreach(var error in errors!)
-                {
-                    string propertyName = $"{nameof(Client)}.{error["propertyName"]}";
-                    string errorMessage = error["errorMessage"]!.ToString();
-                    ModelState.TryAddModelError(propertyName, errorMessage);
-                }
-            }
+            var result = await clientService.Update(Client);
+            if (result.Success)
+                return RedirectToPage($"/Clients/Details", new { id = result.Value!.Id });
+            else
+                foreach (var error in result.Errors!)
+                    ModelState.TryAddModelError(error.Property, error.Message);
+
             return Page();
         }
     }
