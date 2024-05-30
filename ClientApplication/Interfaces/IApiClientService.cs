@@ -5,14 +5,14 @@ namespace ClientApplication.Interfaces
 {
     public interface IApiClientService
     {
-        Task<ApiResponse<List<Client>>> GetAll();
+        Task<ApiResponse<List<Client>>> GetAllAsync();
 
-        Task<ApiResponse<Client>> GetById(int id);
+        Task<ApiResponse<Client>> GetByIdAsync(int id);
 
-        Task<ApiResponse<Client>> Create(Client translator);
+        Task<ApiResponse<Client>> CreateAsync(Client translator);
 
-        Task<ApiResponse<Client>> Update(Client translator);
+        Task<ApiResponse<Client>> UpdateAsync(Client translator);
 
-        Task<ApiResponse<Client>> Delete(int id);
+        Task<ApiResponse<Client>> DeleteAsync(int id);
     }
 }

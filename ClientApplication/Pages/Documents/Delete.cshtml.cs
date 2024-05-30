@@ -12,21 +12,21 @@ namespace ClientApplication.Pages.Documents
 
         public async Task OnGetAsync(string id)
         {
-            var result = await documentService.GetById(id);
-            if (result.Success)
-                Document = result.Value!;            
+            var result = await documentService.GetByIdAsync(id);
+            if (result.IsSuccess)
+                Document = result.Data!;            
             else
-                foreach (var error in result.Errors!)
+                foreach (var error in result.ErrorDetails!)
                     ModelState.AddModelError(error.Property, error.Message);
         }
 
         public async Task<IActionResult> OnPostAsync(string id)
         {            
-            var result = await documentService.Delete(id);
-            if (result.Success)
+            var result = await documentService.DeleteAsync(id);
+            if (result.IsSuccess)
                 return RedirectToPage("/Documents/Index");
             else
-                foreach (var error in result.Errors!)
+                foreach (var error in result.ErrorDetails!)
                     ModelState.AddModelError(error.Property, error.Message);
 
             return Page();

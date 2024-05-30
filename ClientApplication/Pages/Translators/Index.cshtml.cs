@@ -11,11 +11,11 @@ namespace ClientApplication.Pages.Translators
 
         public async Task OnGet()
         {
-            var result = await translatorService.GetAll();
-            if (result.Success)
-                Translators = result.Value!;
+            var result = await translatorService.GetAllAsync();
+            if (result.IsSuccess)
+                Translators = result.Data!;
             else
-                foreach (var (Property, Message) in result.Errors!)
+                foreach (var (Property, Message) in result.ErrorDetails!)
                     ModelState.TryAddModelError(Property, Message);
         }
     }

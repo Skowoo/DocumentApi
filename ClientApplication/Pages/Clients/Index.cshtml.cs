@@ -11,11 +11,11 @@ namespace ClientApplication.Pages.Clients
 
         public async Task OnGetAsync()
         {
-            var result = await clientService.GetAll();
-            if (result.Success)
-                ClientsList = result.Value!;
+            var result = await clientService.GetAllAsync();
+            if (result.IsSuccess)
+                ClientsList = result.Data!;
             else
-                foreach (var error in result.Errors!)
+                foreach (var error in result.ErrorDetails!)
                     ModelState.TryAddModelError(error.Property, error.Message);
         }
     }

@@ -11,11 +11,11 @@ namespace ClientApplication.Pages.Documents
 
         public async Task OnGetAsync()
         {
-            var result = await documentService.GetAll();
-            if (result.Success)
-                DocumentsList = result.Value!;
+            var result = await documentService.GetAllAsync();
+            if (result.IsSuccess)
+                DocumentsList = result.Data!;
             else
-                foreach (var error in result.Errors!)
+                foreach (var error in result.ErrorDetails!)
                     ModelState.AddModelError(error.Property, error.Message);
         }
     }

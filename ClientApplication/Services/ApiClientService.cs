@@ -23,7 +23,7 @@ namespace ClientApplication.Services
             Client = new RestClient(options);
         }
 
-        public async Task<ApiResponse<Client>> Create(Client client)
+        public async Task<ApiResponse<Client>> CreateAsync(Client client)
         {
             var request = new RestRequest("/Client/Add", Method.Post);
             var payload = new
@@ -58,7 +58,7 @@ namespace ClientApplication.Services
             return new ApiResponse<Client>(false, null, [("General", "Request failed without Validation errors!")]);
         }
 
-        public async Task<ApiResponse<Client>> Delete(int id)
+        public async Task<ApiResponse<Client>> DeleteAsync(int id)
         {
             var request = new RestRequest($"/Client/Delete/{id}", Method.Delete);
 
@@ -70,7 +70,7 @@ namespace ClientApplication.Services
             return new ApiResponse<Client>(false, null, [("General", "Request failed!")]);
         }
 
-        public async Task<ApiResponse<List<Client>>> GetAll()
+        public async Task<ApiResponse<List<Client>>> GetAllAsync()
         {
             var request = new RestRequest("/Client/GetAll", Method.Get);
             var response = await Client.ExecuteAsync(request);
@@ -85,7 +85,7 @@ namespace ClientApplication.Services
             }
         }
 
-        public async Task<ApiResponse<Client>> GetById(int id)
+        public async Task<ApiResponse<Client>> GetByIdAsync(int id)
         {
             var request = new RestRequest($"Client/GetById/{id}");
             var response = await Client.ExecuteAsync(request, Method.Get);
@@ -98,7 +98,7 @@ namespace ClientApplication.Services
             return new ApiResponse<Client>(false, null, [("General", "Translator not found!")]);
         }
 
-        public async Task<ApiResponse<Client>> Update(Client translator)
+        public async Task<ApiResponse<Client>> UpdateAsync(Client translator)
         {
             var request = new RestRequest("/Client/Update", Method.Put);
 

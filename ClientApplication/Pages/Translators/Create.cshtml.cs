@@ -14,12 +14,12 @@ namespace ClientApplication.Pages.Translators
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var result = await translatorService.Create(Translator);
+            var result = await translatorService.CreateAsync(Translator);
 
-            if (result.Success)
+            if (result.IsSuccess)
                 return RedirectToPage("/Translators/Index");
             else
-                foreach (var (Property, Message) in result.Errors!)
+                foreach (var (Property, Message) in result.ErrorDetails!)
                     ModelState.TryAddModelError(Property, Message);
 
             return Page();

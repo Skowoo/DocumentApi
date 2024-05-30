@@ -23,7 +23,7 @@ namespace ClientApplication.Services
             Client = new RestClient(options);
         }
 
-        public async Task<ApiResponse<Document>> Create(Document document)
+        public async Task<ApiResponse<Document>> CreateAsync(Document document)
         {
             var request = new RestRequest("/Document/Add", Method.Post);
             var payload = new
@@ -59,7 +59,7 @@ namespace ClientApplication.Services
             return new ApiResponse<Document>(false, null, [("General", "Request failed without Validation errors!")]);
         }
 
-        public async Task<ApiResponse<Document>> Delete(string id)
+        public async Task<ApiResponse<Document>> DeleteAsync(string id)
         {
             var request = new RestRequest($"/Document/Delete/{id}", Method.Delete);
 
@@ -71,7 +71,7 @@ namespace ClientApplication.Services
             return new ApiResponse<Document>(false, null, [("General", "Request failed!")]);
         }
 
-        public async Task<ApiResponse<List<Document>>> GetAll()
+        public async Task<ApiResponse<List<Document>>> GetAllAsync()
         {
             var request = new RestRequest("/Document/GetAll", Method.Get);
             var response = await Client.ExecuteAsync(request);
@@ -84,7 +84,7 @@ namespace ClientApplication.Services
             return new ApiResponse<List<Document>>(true, null, [("General", "Request Failed!")]);            
         }
 
-        public async Task<ApiResponse<Document>> GetById(string id)
+        public async Task<ApiResponse<Document>> GetByIdAsync(string id)
         {
             var request = new RestRequest($"Document/GetById/{id}");
             var response = await Client.ExecuteAsync(request, Method.Get);
@@ -97,7 +97,7 @@ namespace ClientApplication.Services
             return new ApiResponse<Document>(false, null, [("General", "Document not found!")]);
         }
 
-        public async Task<ApiResponse<Document>> Update(Document document)
+        public async Task<ApiResponse<Document>> UpdateAsync(Document document)
         {
             var request = new RestRequest("/Document/Update", Method.Put);
 

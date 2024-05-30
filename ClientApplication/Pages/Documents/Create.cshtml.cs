@@ -17,33 +17,33 @@ namespace ClientApplication.Pages.Documents
 
         public async void OnGet() 
         {
-            var translatorsResult = await translatorService.GetAll();
-            TranslatorsList = new SelectList(translatorsResult.Value, nameof(Translator.Id), nameof(Translator.Name));
+            var translatorsResult = await translatorService.GetAllAsync();
+            TranslatorsList = new SelectList(translatorsResult.Data, nameof(Translator.Id), nameof(Translator.Name));
 
-            var clientsResult = await clientService.GetAll();
-            ClientsList = new SelectList(clientsResult.Value, nameof(Client.Id), nameof(Client.Name));
+            var clientsResult = await clientService.GetAllAsync();
+            ClientsList = new SelectList(clientsResult.Data, nameof(Client.Id), nameof(Client.Name));
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             Document.CreatedAt = DateTime.Now;
 
-            var response = await documentService.Create(Document);
+            var response = await documentService.CreateAsync(Document);
 
-            if (response.Success)
+            if (response.IsSuccess)
             {
                 return RedirectToPage("/Documents/Index");
             }
             else
             {
-                foreach (var error in response.Errors!)
+                foreach (var error in response.ErrorDetails!)
                     ModelState.AddModelError(error.Property, error.Message);                
 
-                var translatorsResult = await translatorService.GetAll();
-                TranslatorsList = new SelectList(translatorsResult.Value, nameof(Translator.Id), nameof(Translator.Name));
+                var translatorsResult = await translatorService.GetAllAsync();
+                TranslatorsList = new SelectList(translatorsResult.Data, nameof(Translator.Id), nameof(Translator.Name));
 
-                var clientsResult = await clientService.GetAll();
-                ClientsList = new SelectList(clientsResult.Value, nameof(Client.Id), nameof(Client.Name));
+                var clientsResult = await clientService.GetAllAsync();
+                ClientsList = new SelectList(clientsResult.Data, nameof(Client.Id), nameof(Client.Name));
             }
             return Page();
         }

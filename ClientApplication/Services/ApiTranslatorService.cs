@@ -23,7 +23,7 @@ namespace ClientApplication.Services
             Client = new RestClient(options);
         }
 
-        public async Task<ApiResponse<Translator>> Create(Translator translator)
+        public async Task<ApiResponse<Translator>> CreateAsync(Translator translator)
         {
             var request = new RestRequest("/Translator/Add", Method.Post);
             var payload = new
@@ -54,7 +54,7 @@ namespace ClientApplication.Services
             return new ApiResponse<Translator>(false, null, [("General", "Request failed without Validation errors!")]);
         }
 
-        public async Task<ApiResponse<Translator>> Delete(int id)
+        public async Task<ApiResponse<Translator>> DeleteAsync(int id)
         {
             var request = new RestRequest($"/Translator/Delete/{id}", Method.Delete);
             var response = await Client.ExecuteAsync(request, Method.Delete);
@@ -64,7 +64,7 @@ namespace ClientApplication.Services
             return new ApiResponse<Translator>(false, null, null);
         }
 
-        public async Task<ApiResponse<List<Translator>>> GetAll()
+        public async Task<ApiResponse<List<Translator>>> GetAllAsync()
         {
             var request = new RestRequest("/Translator/GetAll", Method.Get);
             var response = await Client.ExecuteAsync(request);
@@ -79,7 +79,7 @@ namespace ClientApplication.Services
             }
         }
 
-        public async Task<ApiResponse<Translator>> GetById(int id)
+        public async Task<ApiResponse<Translator>> GetByIdAsync(int id)
         {
             var request = new RestRequest($"Translator/GetById/{id}");
             var response = await Client.ExecuteAsync(request, Method.Get);
@@ -92,7 +92,7 @@ namespace ClientApplication.Services
             return new ApiResponse<Translator>(false, null, [("General", "Translator not found!")]);
         }
 
-        public async Task<ApiResponse<Translator>> Update(Translator translator)
+        public async Task<ApiResponse<Translator>> UpdateAsync(Translator translator)
         {
             var request = new RestRequest("/Translator/Update", Method.Put);
             var payload = new

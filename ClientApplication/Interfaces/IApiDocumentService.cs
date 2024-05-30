@@ -5,14 +5,14 @@ namespace ClientApplication.Interfaces
 {
     public interface IApiDocumentService
     {
-        Task<ApiResponse<List<Document>>> GetAll();
+        Task<ApiResponse<List<Document>>> GetAllAsync();
 
-        Task<ApiResponse<Document>> GetById(string id);
+        Task<ApiResponse<Document>> GetByIdAsync(string id);
 
-        Task<ApiResponse<Document>> Create(Document translator);
+        Task<ApiResponse<Document>> CreateAsync(Document translator);
 
-        Task<ApiResponse<Document>> Update(Document translator);
+        Task<ApiResponse<Document>> UpdateAsync(Document translator);
 
-        Task<ApiResponse<Document>> Delete(string id);
+        Task<ApiResponse<Document>> DeleteAsync(string id);
     }
 }

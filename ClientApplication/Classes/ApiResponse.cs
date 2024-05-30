@@ -15,16 +15,16 @@
         /// <summary>
         /// True if the request was successful
         /// </summary>
-        public bool Success { get; init; } = result;
+        public bool IsSuccess { get; init; } = result;
 
         /// <summary>
         /// If the request was successful, the value returned
         /// </summary>
-        public T? Value { get; init; } = value;
+        public T? Data { get; init; } = value;
 
         /// <summary>
         /// If the request was not successful, the errors returned
         /// </summary>
-        public List<(string Property, string Message)>? Errors { get; init; } = errors;
+        public List<(string Property, string Message)>? ErrorDetails { get; init; } = errors;
     }
 }

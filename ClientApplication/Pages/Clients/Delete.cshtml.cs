@@ -12,22 +12,22 @@ namespace ClientApplication.Pages.Clients
 
         public async Task OnGetAsync(int id)
         {
-            var result = await clientService.GetById(id);
+            var result = await clientService.GetByIdAsync(id);
 
-            if (result.Success)
-                Client = result.Value!;
+            if (result.IsSuccess)
+                Client = result.Data!;
             else
-                foreach (var error in result.Errors!)
+                foreach (var error in result.ErrorDetails!)
                     ModelState.TryAddModelError(error.Property, error.Message);
         }
 
         public async Task <IActionResult> OnPostAsync(int id)
         {
-            var result = await clientService.Delete(id);
-            if (result.Success)
+            var result = await clientService.DeleteAsync(id);
+            if (result.IsSuccess)
                 return RedirectToPage("/Clients/Index");
             else
-                foreach (var error in result.Errors!)
+                foreach (var error in result.ErrorDetails!)
                     ModelState.TryAddModelError(error.Property, error.Message);
 
             return Page();

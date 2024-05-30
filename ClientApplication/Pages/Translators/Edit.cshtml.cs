@@ -12,22 +12,22 @@ namespace ClientApplication.Pages.Translators
 
         public async Task OnGetAsync(int id)
         {
-            var result = await translatorService.GetById(id);
-            if (result.Success)
-                Translator = result.Value!;
+            var result = await translatorService.GetByIdAsync(id);
+            if (result.IsSuccess)
+                Translator = result.Data!;
             else
-                foreach (var (Property, Message) in result.Errors!)
+                foreach (var (Property, Message) in result.ErrorDetails!)
                     ModelState.TryAddModelError(Property, Message);
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var result = await translatorService.Update(Translator);
+            var result = await translatorService.UpdateAsync(Translator);
 
-            if (result.Success)
-                return RedirectToPage($"/Translators/Details", new { id = result.Value!.Id });
+            if (result.IsSuccess)
+                return RedirectToPage($"/Translators/Details", new { id = result.Data!.Id });
             else
-                foreach (var (Property, Message) in result.Errors!)
+                foreach (var (Property, Message) in result.ErrorDetails!)
                     ModelState.TryAddModelError(Property, Message);
 
             return Page();

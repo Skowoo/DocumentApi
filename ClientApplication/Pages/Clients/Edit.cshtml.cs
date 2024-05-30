@@ -12,22 +12,22 @@ namespace ClientApplication.Pages.Clients
 
         public async Task OnGetAsync(int id)
         {
-            var result = await clientService.GetById(id);
+            var result = await clientService.GetByIdAsync(id);
 
-            if (result.Success)
-                Client = result.Value!;
+            if (result.IsSuccess)
+                Client = result.Data!;
             else
-                foreach (var error in result.Errors!)
+                foreach (var error in result.ErrorDetails!)
                     ModelState.TryAddModelError(error.Property, error.Message);
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var result = await clientService.Update(Client);
-            if (result.Success)
-                return RedirectToPage($"/Clients/Details", new { id = result.Value!.Id });
+            var result = await clientService.UpdateAsync(Client);
+            if (result.IsSuccess)
+                return RedirectToPage($"/Clients/Details", new { id = result.Data!.Id });
             else
-                foreach (var error in result.Errors!)
+                foreach (var error in result.ErrorDetails!)
                     ModelState.TryAddModelError(error.Property, error.Message);
 
             return Page();
