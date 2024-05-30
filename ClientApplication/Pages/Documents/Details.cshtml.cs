@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using DocumentApi.Domain.Entities;
-using ClientApplication.Interfaces;
+using ClientApplication.Services;
 
 namespace ClientApplication.Pages.Documents
 {
-    public class DetailsModel(IApiDocumentService documentService) : PageModel
+    public class DetailsModel(IRestService<Document> documentService) : PageModel
     {
         [BindProperty]
         public Document Document { get; set; } = default!;

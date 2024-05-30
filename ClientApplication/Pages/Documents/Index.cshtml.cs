@@ -1,10 +1,10 @@
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ClientApplication.Interfaces;
+using ClientApplication.Services;
 
 namespace ClientApplication.Pages.Documents
 {
-    public class IndexModel(IApiDocumentService documentService) : PageModel
+    public class IndexModel(IRestService<Document> documentService) : PageModel
     {
         public Document BaseEntity { get; set; } = default!;
         public List<Document> DocumentsList { get; set; } = [];

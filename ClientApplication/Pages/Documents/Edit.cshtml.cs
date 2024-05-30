@@ -2,11 +2,11 @@ using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ClientApplication.Interfaces;
+using ClientApplication.Services;
 
 namespace ClientApplication.Pages.Documents
 {
-    public class EditModel(IApiDocumentService documentService, IApiTranslatorService translatorService, IApiClientService clientService) : PageModel
+    public class EditModel(IRestService<Document> documentService, IRestService<Translator> translatorService, IRestService<Client> clientService) : PageModel
     {
         [BindProperty]
         public Document Document { get; set; } = default!;

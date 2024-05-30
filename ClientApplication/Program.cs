@@ -1,5 +1,4 @@
 using ClientApplication.Config;
-using ClientApplication.Interfaces;
 using ClientApplication.Services;
 
 namespace ClientApplication
@@ -15,9 +14,7 @@ namespace ClientApplication
 
             builder.Services.AddSingleton<CurrentUser>();
 
-            builder.Services.AddTransient<IApiTranslatorService, ApiTranslatorService>();
-            builder.Services.AddTransient<IApiClientService, ApiClientService>();
-            builder.Services.AddTransient<IApiDocumentService, ApiDocumentService>();
+            builder.Services.AddTransient(typeof(IRestService<>), typeof(RestService<>));
 
             // Add services to the container.
             builder.Services.AddRazorPages();

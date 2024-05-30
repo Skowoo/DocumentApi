@@ -1,11 +1,11 @@
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ClientApplication.Interfaces;
+using ClientApplication.Services;
 
 namespace ClientApplication.Pages.Clients
 {
-    public class EditModel(IApiClientService clientService) : PageModel
+    public class EditModel(IRestService<Client> clientService) : PageModel
     {
         [BindProperty]
         public Client Client { get; set; } = default!;

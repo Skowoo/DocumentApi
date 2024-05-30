@@ -1,11 +1,11 @@
-using ClientApplication.Interfaces;
+using ClientApplication.Services;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ClientApplication.Pages.Clients
 {
-    public class CreateModel(IApiClientService clientService) : PageModel
+    public class CreateModel(IRestService<Client> clientService) : PageModel
     {
         [BindProperty]
         public Client Client { get; set; } = default!;

@@ -1,10 +1,10 @@
-using ClientApplication.Interfaces;
+using ClientApplication.Services;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ClientApplication.Pages.Clients
 {
-    public class IndexModel(IApiClientService clientService) : PageModel
+    public class IndexModel(IRestService<Client> clientService) : PageModel
     {
         public List<Client> ClientsList { get; private set; } = [];
         public Client BaseEntity = new();

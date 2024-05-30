@@ -1,11 +1,11 @@
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ClientApplication.Interfaces;
+using ClientApplication.Services;
 
 namespace ClientApplication.Pages.Documents
 {
-    public class DeleteModel(IApiDocumentService documentService) : PageModel
+    public class DeleteModel(IRestService<Document> documentService) : PageModel
     {
         [BindProperty]
         public Document Document { get; set; } = default!;
