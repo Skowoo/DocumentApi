@@ -16,4 +16,11 @@
     <ProjectReference Include="..\DocumentApi.Domain\DocumentApi.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\Shared\_AdminPanelLayout.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
