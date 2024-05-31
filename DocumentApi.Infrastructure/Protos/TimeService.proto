@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option csharp_namespace = "DocumentApi.Infrastructure";
+import "google/protobuf/empty.proto";
+
+package currentTime;
+
+service Time {
+  rpc GetCurrentTime (google.protobuf.Empty) returns (SingleTimeReply);
+}
+
+message SingleTimeReply {
+  string value = 1;
+}

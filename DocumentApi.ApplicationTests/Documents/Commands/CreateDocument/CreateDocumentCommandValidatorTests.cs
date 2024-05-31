@@ -69,9 +69,9 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
         }
 
         [Theory]
-        [InlineData(true)]
-        [InlineData(false, "empty")]
-        public void CreateDocumentCommandValidator_CreatedAtValidationTests(bool expectedResult, string errorName = "")
+        [InlineData(true, false)]
+        [InlineData(true, true)]
+        public void CreateDocumentCommandValidator_CreatedAtValidationTests(bool expectedResult, bool defineDate)
         {
             var validator = new CreateDocumentCommandValidator(contextMock);
             var command = new CreateDocumentCommand()
@@ -82,19 +82,12 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
                 ClientId = 1,
                 TranslatorId = null
             };
-            if (expectedResult)
+            if (defineDate)
                 command.CreatedAt = DateTime.Now;
 
             var result = validator.TestValidate(command);
 
             result.IsValid.Should().Be(expectedResult);
-
-            if (!expectedResult)
-            {
-                result.ShouldHaveValidationErrorFor("CreatedAt");
-                result.Errors.Should().HaveCount(1);
-                result.Errors[0].ErrorMessage.Should().Contain(errorName);
-            }
         }
 
         [Theory]

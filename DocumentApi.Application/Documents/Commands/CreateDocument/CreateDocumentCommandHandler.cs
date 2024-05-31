@@ -4,7 +4,7 @@ using MediatR;
 
 namespace DocumentApi.Application.Documents.Commands.CreateDocument
 {
-    public class CreateDocumentCommandHandler(IDocumentDbContext context) : IRequestHandler<CreateDocumentCommand, Guid>
+    public class CreateDocumentCommandHandler(IDocumentDbContext context, ITimeProvider timeProvider) : IRequestHandler<CreateDocumentCommand, Guid>
     {
         public async Task<Guid> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
         {
@@ -12,7 +12,7 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument
             {
                 Title = request.Title,
                 SignsSize = request.SignsSize,
-                CreatedAt = request.CreatedAt,
+                CreatedAt = await timeProvider.GetCurrentTimeAsync(),
                 Deadline = request.Deadline,
                 ClientId = request.ClientId,                
                 Client = await context.Clients.FindAsync([request.ClientId], cancellationToken),

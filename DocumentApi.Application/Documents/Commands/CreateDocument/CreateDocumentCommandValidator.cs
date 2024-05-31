@@ -14,9 +14,6 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument
                 .NotEmpty()
                 .InclusiveBetween(1, 100_000);
 
-            RuleFor(x => x.CreatedAt)
-                .NotEmpty();
-
             RuleFor(x => x.Deadline)
                 .NotEmpty();
 

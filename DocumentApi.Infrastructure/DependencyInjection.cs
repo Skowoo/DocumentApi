@@ -5,6 +5,7 @@ using DocumentApi.Application.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
 using DocumentApi.Infrastructure.Identity.Services;
 using DocumentApi.Infrastructure.Identity.DependencyInjection;
+using DocumentApi.Infrastructure.Services;
 
 namespace DocumentApi.Infrastructure
 {
@@ -22,7 +23,7 @@ namespace DocumentApi.Infrastructure
 
             thisService.AddScoped<DbInitializer>();
             thisService.AddScoped<IUserService, UserService>();
-
+            thisService.AddScoped<ITimeProvider, GrpcTimeProvider>();
 
             thisService.AddScoped<IDocumentDbContext>(provider 
                 => provider.GetRequiredService<DocumentDbContext>());
