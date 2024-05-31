@@ -43,7 +43,7 @@ namespace DocumentApi.Infrastructure.Identity.Services
             var target = context.Roles.SingleOrDefault(x => x.Name == roleName);
 
             if (target is null)
-                return IdentityResult.Failed(new IdentityError() { Description = "Role not found!" });
+                return IdentityResult.Failed(new IdentityError() { Code = "Custom", Description = "Role not found!" });
 
             return await roleManager.DeleteAsync(target);
         }
@@ -54,10 +54,10 @@ namespace DocumentApi.Infrastructure.Identity.Services
             var targetRole = roleManager.Roles.SingleOrDefault(x => x.Name == roleName);
 
             if (targetUser is null)
-                return IdentityResult.Failed(new IdentityError() { Description = "User not found!" });
+                return IdentityResult.Failed(new IdentityError() { Code = "Custom", Description = "User not found!" });
 
             if (targetRole is null)
-                return IdentityResult.Failed(new IdentityError() { Description = "Role not found!" });
+                return IdentityResult.Failed(new IdentityError() { Code = "Custom", Description = "Role not found!" });
 
             return await userManager.AddToRoleAsync(targetUser, roleName);
         }
@@ -68,10 +68,10 @@ namespace DocumentApi.Infrastructure.Identity.Services
             var targetRole = roleManager.Roles.SingleOrDefault(x => x.Name == roleName);
 
             if (targetUser is null)
-                return IdentityResult.Failed(new IdentityError() { Description = "User not found!" });
+                return IdentityResult.Failed(new IdentityError() { Code = "Custom", Description = "User not found!" });
 
             if (targetRole is null)
-                return IdentityResult.Failed(new IdentityError() { Description = "Role not found!" });
+                return IdentityResult.Failed(new IdentityError() { Code = "Custom", Description = "Role not found!" });
 
             return await userManager.RemoveFromRoleAsync(targetUser, roleName);
         }

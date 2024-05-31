@@ -31,28 +31,28 @@ namespace DocumentApi.Web.Controllers
         public async Task<IActionResult> AddRole(string roleName)
         {
             var result = await identityService.AddRole(roleName);
-            return result.Succeeded ? Ok(roleName) : BadRequest(result.Errors);
+            return result.Succeeded ? Ok(result) : BadRequest(result);
         }
 
         [HttpDelete]
         public async Task<IActionResult> RemoveRole(string roleName)
         {
             var result = await identityService.RemoveRole(roleName);
-            return result.Succeeded ? Ok(roleName) : BadRequest(result.Errors);
+            return result.Succeeded ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUserToRole(string userName, string roleName)
+        public async Task<IActionResult> AddUserToRole(AppUser user)
         {
-            var result = await identityService.AssignUserToRole(userName, roleName);
-            return result.Succeeded? Ok() : BadRequest(result.Errors);
+            var result = await identityService.AssignUserToRole(user.Login, user.Password);
+            return result.Succeeded? Ok(result) : BadRequest(result);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> RemoveUserFromRole(string userName, string roleName)
+        public async Task<IActionResult> RemoveUserFromRole(AppUser user)
         {
-            var result = await identityService.RemoveUserFromRole(userName, roleName);
-            return result.Succeeded ? Ok() : BadRequest(result.Errors);
+            var result = await identityService.RemoveUserFromRole(user.Login, user.Password);
+            return result.Succeeded ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet]

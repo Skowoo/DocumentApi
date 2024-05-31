@@ -1,9 +1,9 @@
 ﻿namespace DocumentApi.Domain.Entities
 {
-    public class AppUser(string login, string password)
+    public class AppUser
     {
-        public string Login { get; set; } = login;
+        public string Login { get; set; } = default!;
 
-        public string Password { get; set; } = password;
+        public string Password { get; set; } = default!;
     }
 }

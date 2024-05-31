@@ -4,3 +4,25 @@
     Layout = "/Pages/Shared/_AdminPanelLayout.cshtml";
 }
 <h1>Dodaj użytkownika</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NewUser.Login" class="control-label"></label>
+                <input asp-for="NewUser.Login" class="form-control" />
+                <span asp-validation-for="NewUser.Login" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewUser.Password" class="control-label"></label>
+                <input type="password" asp-for="NewUser.Password" class="form-control" />
+                <span asp-validation-for="NewUser.Password" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Dodaj użytkownika" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -15,6 +15,7 @@ namespace ClientApplication
             builder.Services.AddSingleton<CurrentUser>();
 
             builder.Services.AddTransient(typeof(IRestService<>), typeof(RestService<>));
+            builder.Services.AddTransient<IIdentityRestService, IdentityRestService>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();
