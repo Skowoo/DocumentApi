@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentApi.Application", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{9FCBC206-5246-4EF1-93DC-7073BB4EE6B4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentApi.ApplicationTests", "DocumentApi.ApplicationTests\DocumentApi.ApplicationTests.csproj", "{915E4920-2AE0-49E5-994B-92FA78872A9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentApi.ApplicationUnitTests", "DocumentApi.ApplicationTests\DocumentApi.ApplicationUnitTests.csproj", "{915E4920-2AE0-49E5-994B-92FA78872A9B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{38409CAD-93FA-42F8-AF08-4F575669DC61}"
 EndProject
@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{163B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalServices", "ExternalServices", "{AD411E5C-583E-4CE7-B453-F4211A99D1B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcTimeService", "GrpcTimeService\GrpcTimeService.csproj", "{EEB937DC-5C29-42B8-A09F-86266FB97689}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcTimeService", "GrpcTimeService\GrpcTimeService.csproj", "{EEB937DC-5C29-42B8-A09F-86266FB97689}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
