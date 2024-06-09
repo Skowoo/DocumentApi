@@ -1,19 +1,19 @@
-using System.Net;
-using DocumentApi.Application.Clients.Commands.CreateClient;
-using DocumentApi.Application.Clients.Commands.UpdateClient;
+﻿using System.Net;
 using DocumentApi.Web_IntegrationTests.DataFixtures;
+using DocumentApi.Application.Documents.Commands.CreateDocument;
+using DocumentApi.Application.Documents.Commands.UpdateDocument;
 
-namespace DocumentApi.Web_IntegrationTests.ControllersTests.ClientController
+namespace DocumentApi.Web_IntegrationTests.ControllersTests.DocumentController
 {
     [Collection("DocumentApiCollection")]
-    public class ClientControllerTests_Authorization(DocumentApiDataFixture fixture) : IClassFixture<DocumentApiDataFixture>
+    public class DocumentControllerTests_Authorization(DocumentApiDataFixture fixture) : IClassFixture<DocumentApiDataFixture>
     {
         readonly HttpClient client = fixture.Client;
 
         [Fact]
         public async void GetAll_ShouldReturnAuthorizationError()
         {
-            var response = await client.GetAsync("/api/Client/GetAll");
+            var response = await client.GetAsync("/api/Document/GetAll");
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -23,7 +23,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.ClientController
         [InlineData(1978235653)]
         public async void GetById_ShouldReturnAuthorizationError(int id)
         {
-            var response = await client.GetAsync($"/api/Client/GetById/{id}");
+            var response = await client.GetAsync($"/api/Document/GetById/{id}");
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -33,13 +33,13 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.ClientController
         {
             HttpRequestMessage request = new()
             {
-                RequestUri = new Uri("https://localhost:7176/api/Client/Add"),
+                RequestUri = new Uri("https://localhost:7176/api/Document/Add"),
                 Method = HttpMethod.Post,
                 Headers =
-                    {                        
+                    {
                         {HttpRequestHeader.ContentType.ToString(), "application/json"}
                     },
-                Content = JsonContent.Create(new CreateClientCommand() { Name = "ValidName", Email = "valid@email.pl", TelephoneNumber = "1234567890"}),
+                Content = JsonContent.Create(new CreateDocumentCommand() { Title = "ValidTitle", SignsSize = 1000, CreatedAt = DateTime.Now, Deadline = DateTime.Now.AddDays(2), ClientId = 1, TranslatorId = 1 }),
             };
 
             var response = await client.SendAsync(request);
@@ -52,13 +52,13 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.ClientController
         {
             HttpRequestMessage request = new()
             {
-                RequestUri = new Uri("https://localhost:7176/api/Client/Update"),
+                RequestUri = new Uri("https://localhost:7176/api/Translator/Update"),
                 Method = HttpMethod.Put,
                 Headers =
                     {
                         {HttpRequestHeader.ContentType.ToString(), "application/json"}
                     },
-                Content = JsonContent.Create(new UpdateClientCommand() { Id = 1, Name = "ValidName", Email = "valid@email.pl", TelephoneNumber = "1234567890" }),
+                Content = JsonContent.Create(new UpdateDocumentCommand() { Id = Guid.NewGuid(), Title = "ValidTitle", SignsSize = 1000, CreatedAt = DateTime.Now, Deadline = DateTime.Now.AddDays(2), ClientId = 1, TranslatorId = 1 }),
             };
 
             var response = await client.SendAsync(request);
@@ -71,7 +71,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.ClientController
         [InlineData(1978235653)]
         public async void Delete_ShouldReturnAuthorizationError(int id)
         {
-            var response = await client.DeleteAsync($"/api/Client/Delete/{id}");
+            var response = await client.DeleteAsync($"/api/Document/Delete/{id}");
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
