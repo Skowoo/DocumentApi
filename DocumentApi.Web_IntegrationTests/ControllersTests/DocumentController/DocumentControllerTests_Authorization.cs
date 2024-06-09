@@ -18,12 +18,10 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.DocumentController
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(1978235653)]
-        public async void GetById_ShouldReturnAuthorizationError(int id)
+        [Fact]
+        public async void GetById_ShouldReturnAuthorizationError()
         {
-            var response = await client.GetAsync($"/api/Document/GetById/{id}");
+            var response = await client.GetAsync($"/api/Document/GetById/{fixture.ExampleDocumentId}");
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -39,7 +37,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.DocumentController
                     {
                         {HttpRequestHeader.ContentType.ToString(), "application/json"}
                     },
-                Content = JsonContent.Create(new CreateDocumentCommand() { Title = "ValidTitle", SignsSize = 1000, CreatedAt = DateTime.Now, Deadline = DateTime.Now.AddDays(2), ClientId = 1, TranslatorId = 1 }),
+                Content = JsonContent.Create(new CreateDocumentCommand() { Title = "ValidTitle", SignsSize = 1000, Deadline = DateTime.Now.AddDays(2), ClientId = 1, TranslatorId = 1 }),
             };
 
             var response = await client.SendAsync(request);
