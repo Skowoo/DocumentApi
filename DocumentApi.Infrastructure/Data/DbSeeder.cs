@@ -64,7 +64,7 @@ namespace DocumentApi.Infrastructure.Data
         private async Task AssignRoles()
         {
             var admin = await userManager.FindByNameAsync(adminCredentials);
-            var user = await userManager.FindByNameAsync("User");
+            var user = await userManager.FindByNameAsync(userCredentials);
 
             await userManager.AddToRoleAsync(admin!, Roles.Administrator);
             await userManager.AddToRoleAsync(admin!, Roles.User);
