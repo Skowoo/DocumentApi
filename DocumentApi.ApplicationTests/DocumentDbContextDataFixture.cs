@@ -2,6 +2,7 @@
 using DocumentApi.Domain.Entities;
 using DocumentApi.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace DocumentApi.ApplicationTests
 {
@@ -20,6 +21,13 @@ namespace DocumentApi.ApplicationTests
             context.SaveChanges();
 
             return context;
+        }
+
+        internal static ITimeProvider GetTimeProvider()
+        {
+            var timeProviderMock = new Mock<ITimeProvider>();
+            timeProviderMock.Setup(x => x.GetCurrentTimeAsync()).ReturnsAsync(DateTime.Now);
+            return timeProviderMock.Object;
         }
     }
 }

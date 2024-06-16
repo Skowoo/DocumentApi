@@ -8,8 +8,6 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument
 
         public int SignsSize { get; set; }
 
-        public DateTime CreatedAt { get; set; }
-
         public DateTime Deadline { get; set; }
 
         public int ClientId { get; set; }

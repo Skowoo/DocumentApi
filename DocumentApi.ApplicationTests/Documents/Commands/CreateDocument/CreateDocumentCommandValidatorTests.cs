@@ -9,6 +9,7 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
     public class CreateDocumentCommandValidatorTests
     {
         private readonly IDocumentDbContext contextMock = DocumentDbContextDataFixture.GetContext();
+        private readonly ITimeProvider timeProviderMock = DocumentDbContextDataFixture.GetTimeProvider();
 
         [Theory]
         [InlineData("Name", true)]
@@ -16,13 +17,12 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
         [InlineData(null, false, "empty")]
         public void CreateDocumentCommandValidator_NameValidationTests(string? name, bool expectedResult, string errorName = "")
         {
-            var validator = new CreateDocumentCommandValidator(contextMock);
+            var validator = new CreateDocumentCommandValidator(contextMock, timeProviderMock);
             var command = new CreateDocumentCommand()
             {
                 Title = name,
                 SignsSize = 100,
-                CreatedAt = DateTime.UtcNow,
-                Deadline = DateTime.UtcNow.AddDays(1),
+                Deadline = DateTime.Now.AddDays(1),
                 ClientId = 1,
                 TranslatorId = null
             };
@@ -45,13 +45,12 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
         [InlineData(100001, false, "100001")]
         public void CreateDocumentCommandValidator_SignsSizeValidationTests(int signSize, bool expectedResult, string errorName = "", int errorsCount = 1)
         {
-            var validator = new CreateDocumentCommandValidator(contextMock);
+            var validator = new CreateDocumentCommandValidator(contextMock, timeProviderMock);
             var command = new CreateDocumentCommand()
             {
                 Title = "Name",
                 SignsSize = signSize,
-                CreatedAt = DateTime.UtcNow,
-                Deadline = DateTime.UtcNow.AddDays(1),
+                Deadline = DateTime.Now.AddDays(1),
                 ClientId = 1,
                 TranslatorId = null
             };
@@ -69,38 +68,15 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
         }
 
         [Theory]
-        [InlineData(true, false)]
-        [InlineData(true, true)]
-        public void CreateDocumentCommandValidator_CreatedAtValidationTests(bool expectedResult, bool defineDate)
-        {
-            var validator = new CreateDocumentCommandValidator(contextMock);
-            var command = new CreateDocumentCommand()
-            {
-                Title = "Name",
-                SignsSize = 100,
-                Deadline = DateTime.UtcNow.AddDays(1),
-                ClientId = 1,
-                TranslatorId = null
-            };
-            if (defineDate)
-                command.CreatedAt = DateTime.Now;
-
-            var result = validator.TestValidate(command);
-
-            result.IsValid.Should().Be(expectedResult);
-        }
-
-        [Theory]
         [InlineData(true)]
         [InlineData(false, "empty")]
         public void CreateDocumentCommandValidator_DeadlineValidationTests(bool expectedResult, string errorName = "")
         {
-            var validator = new CreateDocumentCommandValidator(contextMock);
+            var validator = new CreateDocumentCommandValidator(contextMock, timeProviderMock);
             var command = new CreateDocumentCommand()
             {
                 Title = "Name",
                 SignsSize = 100,
-                CreatedAt = DateTime.Now,
                 ClientId = 1,
                 TranslatorId = null
             };
@@ -125,12 +101,11 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
         [InlineData(-1, false, "after")]
         public void CreateDocumentCommandValidator_DeadlineMustAppearAfterCreationValidationTests(int offset, bool expectedResult, string errorName = "")
         {
-            var validator = new CreateDocumentCommandValidator(contextMock);
+            var validator = new CreateDocumentCommandValidator(contextMock, timeProviderMock);
             var command = new CreateDocumentCommand()
             {
                 Title = "Name",
                 SignsSize = 100,
-                CreatedAt = DateTime.Now,
                 Deadline = DateTime.Now.AddDays(offset),
                 ClientId = 1,
                 TranslatorId = null
@@ -154,12 +129,11 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
         [InlineData(2, false, "Client")]
         public void CreateDocumentCommandValidator_ClientValidationTests(int clientId, bool expectedResult, string errorName = "")
         {
-            var validator = new CreateDocumentCommandValidator(contextMock);
+            var validator = new CreateDocumentCommandValidator(contextMock, timeProviderMock);
             var command = new CreateDocumentCommand()
             {
                 Title = "Name",
                 SignsSize = 100,
-                CreatedAt = DateTime.Now,
                 Deadline = DateTime.Now.AddDays(1),
                 ClientId = clientId,
                 TranslatorId = null
@@ -184,12 +158,11 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument.Tests
         [InlineData(2, false, "Translator")]
         public void CreateDocumentCommandValidator_TranslatorValidationTests(int? translatorId, bool expectedResult, string errorName = "")
         {
-            var validator = new CreateDocumentCommandValidator(contextMock);
+            var validator = new CreateDocumentCommandValidator(contextMock, timeProviderMock);
             var command = new CreateDocumentCommand()
             {
                 Title = "Name",
                 SignsSize = 100,
-                CreatedAt = DateTime.Now,
                 Deadline = DateTime.Now.AddDays(1),
                 ClientId = 1,
                 TranslatorId = translatorId

@@ -5,7 +5,7 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument
 {
     public class CreateDocumentCommandValidator : AbstractValidator<CreateDocumentCommand>
     {
-        public CreateDocumentCommandValidator(IDocumentDbContext context)
+        public CreateDocumentCommandValidator(IDocumentDbContext context, ITimeProvider timeProvider)
         {
             RuleFor(x => x.Title)
                 .NotEmpty();
@@ -17,8 +17,8 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument
             RuleFor(x => x.Deadline)
                 .NotEmpty();
 
-            RuleFor(x => new { x.CreatedAt, x.Deadline })
-                .Must(x => x.CreatedAt <= x.Deadline)
+            RuleFor(x => x.Deadline )
+                .Must(x => timeProvider.GetCurrentTimeAsync().Result <= x)
                 .WithMessage("Deadline must be after the creation date!");
 
             RuleFor(x => x.ClientId)

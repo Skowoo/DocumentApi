@@ -26,8 +26,6 @@ namespace ClientApplication.Pages.Documents
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Document.CreatedAt = DateTime.Now;
-
             var response = await documentService.CreateAsync(Document);
 
             if (response.IsSuccess)
