@@ -1,6 +1,7 @@
 ﻿@page
 @model ClientApplication.Pages.Documents.EditModel
 @{
+    ViewData["Title"] = "Edytuj Dokument";
 }
 <h1>Edytuj Dokument - @Model.Document.Title</h1>
 <hr />
@@ -18,7 +19,11 @@
                 <input asp-for="Document.SignsSize" class="form-control" />
                 <span asp-validation-for="Document.SignsSize" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="Document.CreatedAt" />
+            <div class="form-group">
+                <label asp-for="Document.CreatedAt" class="control-label"></label>
+                <input asp-for="Document.CreatedAt" class="form-control" />
+                <span asp-validation-for="Document.CreatedAt" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Document.Deadline" class="control-label"></label>
                 <input asp-for="Document.Deadline" class="form-control" />

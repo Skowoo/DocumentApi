@@ -3,17 +3,17 @@
 @inject CurrentUser storage;
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Strona główna";
 }
 
 <div class="text-center">
     @if (storage.IsValid)
     {
-        <h1 class="display-4">Welcome, @(storage.Login)</h1>
+        <h1 class="display-4">Witaj, @(storage.Login)</h1>
     }
     else
     {
-        <h1 class="display-4">Welcome</h1>
-        <a class="display-6" asp-page="Common/Login">Zaloguj się!</a>
+        <h1 class="display-4">Witaj</h1>
+        <a class="btn btn-primary" asp-page="Common/Login">Zaloguj się!</a>
     }
 </div>

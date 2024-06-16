@@ -1,6 +1,7 @@
 ﻿@page
 @model ClientApplication.Pages.Documents.DetailsModel
 @{
+    ViewData["Title"] = "Szczegóły Dokumentu";
 }
 <h1>@Html.DisplayFor(x => x.Document.Title) - Szczegóły</h1>
 <div asp-validation-summary="All" class="text-danger"></div>

@@ -1,8 +1,9 @@
 ﻿@page
 @model ClientApplication.Pages.Translators.DeleteModel
 @{
+    ViewData["Title"] = "Usuń Tłumacza";
 }
-<h1>Skasuj - @Html.DisplayFor(model => model.Translator.Name)</h1>
+<h1>Usuń Tłumacza - @Html.DisplayFor(model => model.Translator.Name)</h1>
 <div asp-validation-summary="All" class="text-danger"></div>
 <div>
     <hr />

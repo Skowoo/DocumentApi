@@ -2,20 +2,26 @@
 @model ClientApplication.Pages.AdminPanel.RemoveFromRoleModel
 @{
     Layout = "/Pages/Shared/_AdminPanelLayout.cshtml";
+    ViewData["Title"] = "Usuń użytkownika z roli";
 }
 <h1>Usuń Rolę Użytkownika</h1>
 <br />
-<form asp-action="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="UserName" class="control-label"></label>
-        <select asp-for="UserName" class="form-control" asp-items="Model.Users"></select>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <select asp-for="UserName" class="form-control" asp-items="Model.Users"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <select asp-for="RoleName" class="form-control" asp-items="Model.Roles"></select>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Usuń z roli" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="RoleName" class="control-label"></label>
-        <select asp-for="RoleName" class="form-control" asp-items="Model.Roles"></select>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Usuń z roli" class="btn btn-primary" />
-    </div>
-</form>
+</div>
