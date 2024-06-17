@@ -17,7 +17,6 @@ namespace DocumentApi.Infrastructure
             thisService.AddDbContext<DocumentDbContext>(options 
                 => options.UseInMemoryDatabase("MemoDb"));
 
-
             thisService.AddIdentityModule();
             thisService.AddJwtAuthentication(configuration);
 

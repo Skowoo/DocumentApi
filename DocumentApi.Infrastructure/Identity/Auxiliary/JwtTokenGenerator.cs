@@ -25,9 +25,9 @@ namespace DocumentApi.Infrastructure.Identity.Auxiliary
             claims.AddRange(roles.Select(x =>
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, x)));
 
-            var issuer = configuration.GetValue<string>("Jwt:Issuer");
-            var audience = configuration.GetValue<string>("Jwt:Audience");
-            var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("Jwt:Key")!);
+            var issuer = configuration["Jwt:Issuer"];
+            var audience = configuration["Jwt:Audience"];
+            var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]!);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),

@@ -14,14 +14,11 @@ namespace DocumentApi.Web
 
             builder.Services.AddControllers(); // Add controllers in build - required for mapping
 
-            // Add Swagger - need to download NuGet Swashbuckle.AspNetCore
-            builder.Services.AddSwaggerGen();
-
             // Register layers
             builder.Services.AddInfrastructureServices(builder.Configuration);
             builder.Services.AddApplicationServices();
 
-            // Add Swagger window for accepting Jwt Token
+            // Add Swagger window for accepting Jwt Token - need to download NuGet Swashbuckle.AspNetCore
             builder.Services.AddSwaggerGen(section =>
             {
                 section.AddSecurityDefinition("Bearer",

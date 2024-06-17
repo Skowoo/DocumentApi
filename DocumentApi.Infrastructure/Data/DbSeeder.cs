@@ -28,7 +28,7 @@ namespace DocumentApi.Infrastructure.Data
             await AssignRoles();
             await SeedClients();
             await SeedTranslators();
-            await SeedDocuments(100);
+            await SeedDocuments(10);
         }
 
         private async Task SeedUsers()
@@ -131,8 +131,8 @@ namespace DocumentApi.Infrastructure.Data
                     SignsSize = random.Next(10, 100_000),
                     CreatedAt = DateTime.Now.AddDays(random.Next(-10, 10)),
                     Deadline = DateTime.Now.AddDays(random.Next(15, 30)),
-                    ClientId = random.Next(0, clientsCount),
-                    TranslatorId = random.Next(0, translatorsCount * 2) > translatorsCount ? null : random.Next(0, translatorsCount),
+                    ClientId = random.Next(1, clientsCount),
+                    TranslatorId = random.Next(1, translatorsCount * 2) > translatorsCount ? null : random.Next(0, translatorsCount),
                 });
             }
             await context.Documents.AddRangeAsync(documents);

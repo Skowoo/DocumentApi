@@ -23,7 +23,7 @@ namespace DocumentApi.Infrastructure.Identity.Services
                 if (hasher.VerifyHashedPassword(user, user.PasswordHash!, password) != PasswordVerificationResult.Failed)
                     return (IdentityResult.Success, await JwtTokenGenerator.GenerateJwtString(user, userManager, configuration));
             }
-            return (IdentityResult.Failed(new IdentityError() { Description = user is null ? "User not found!" : "Wrong password!" }), null);
+            return (IdentityResult.Failed(new IdentityError() { Code = "Custom", Description = user is null ? "User not found!" : "Wrong password!" }), null);
         }
 
         public async Task<(IdentityResult Result, string? UserId)> RegisterUser(string login, string password)
