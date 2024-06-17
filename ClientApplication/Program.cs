@@ -1,3 +1,4 @@
+using ClientApplication.Classes;
 using ClientApplication.Config;
 using ClientApplication.Services;
 
@@ -16,6 +17,7 @@ namespace ClientApplication
 
             builder.Services.AddTransient(typeof(IRestService<>), typeof(RestService<>));
             builder.Services.AddTransient<IIdentityRestService, IdentityRestService>();
+            builder.Services.AddTransient<SelectListHelper>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();

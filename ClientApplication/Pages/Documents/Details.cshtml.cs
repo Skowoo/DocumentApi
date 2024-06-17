@@ -16,8 +16,8 @@ namespace ClientApplication.Pages.Documents
             if (result.IsSuccess)
                 Document = result.Data!;
             else
-                foreach (var error in result.ErrorDetails!)
-                    ModelState.AddModelError(error.Property, error.Message);
+                foreach (var (Property, Message) in result.ErrorDetails!)
+                    ModelState.AddModelError(Property, Message);
         }
     }
 }

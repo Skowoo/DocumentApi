@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ClientApplication.Services;
+using ClientApplication.Classes;
 
 namespace ClientApplication.Pages.Documents
 {
-    public class CreateModel(IRestService<Document> documentService, IRestService<Translator> translatorService, IRestService<Client> clientService) : PageModel
+    public class CreateModel(IRestService<Document> documentService, SelectListHelper selectListHelper) : PageModel
     {
         [BindProperty]
         public Document Document { get; set; } = default!;
@@ -15,35 +16,30 @@ namespace ClientApplication.Pages.Documents
 
         public SelectList TranslatorsList { get; set; } = default!;
 
-        public async void OnGet() 
-        {
-            var translatorsResult = await translatorService.GetAllAsync();
-            TranslatorsList = new SelectList(translatorsResult.Data, nameof(Translator.Id), nameof(Translator.Name));
-
-            var clientsResult = await clientService.GetAllAsync();
-            ClientsList = new SelectList(clientsResult.Data, nameof(Client.Id), nameof(Client.Name));
-        }
+        public async Task OnGetAsync() => await PopulateListsAsync();
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (Document.TranslatorId == 0)
+                Document.TranslatorId = null;
+
             var response = await documentService.CreateAsync(Document);
 
             if (response.IsSuccess)
-            {
                 return RedirectToPage("/Documents/Index");
-            }
-            else
-            {
-                foreach (var error in response.ErrorDetails!)
-                    ModelState.AddModelError(error.Property, error.Message);                
 
-                var translatorsResult = await translatorService.GetAllAsync();
-                TranslatorsList = new SelectList(translatorsResult.Data, nameof(Translator.Id), nameof(Translator.Name));
+            foreach (var (Property, Message) in response.ErrorDetails!)
+                ModelState.AddModelError(Property, Message);
 
-                var clientsResult = await clientService.GetAllAsync();
-                ClientsList = new SelectList(clientsResult.Data, nameof(Client.Id), nameof(Client.Name));
-            }
+            await PopulateListsAsync();
+
             return Page();
+        }
+
+        async Task PopulateListsAsync()
+        {
+            TranslatorsList = await selectListHelper.GetTranslatorsSelectListAsync();
+            ClientsList = await selectListHelper.GetClientsSelectListAsync();
         }
     }
 }

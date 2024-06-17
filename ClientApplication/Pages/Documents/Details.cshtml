@@ -38,7 +38,13 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(x => x.Document.Deadline)
         </dd>
-        @if(Model.Document.Translator is not null){
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.Document.ClientId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.Document.ClientId)
+        </dd>        
+        @if(Model.Document.Client is not null){
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(x => x.Document.Client!.Name)
             </dt>
@@ -58,6 +64,12 @@
                 @Html.DisplayFor(x => x.Document.Client!.TelephoneNumber)
             </dd>
         }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.Document.TranslatorId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(x => x.Document.TranslatorId)
+        </dd>
         @if(Model.Document.Translator is not null){
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(x => x.Document.Translator!.Name)
