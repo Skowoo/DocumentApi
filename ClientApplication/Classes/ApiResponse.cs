@@ -1,15 +1,15 @@
 ﻿namespace ClientApplication.Classes
 {
     /// <summary>
-    /// Custom record to store results from ApiServices
+    /// Custom record to store requests results from ApiServices calls
     /// </summary>
     /// <typeparam name="T"> Generic class of returned object </typeparam>
     /// <remarks>
     /// Creates new instance of ApiResponse
     /// </remarks>
-    /// <param name="result"></param>
-    /// <param name="value"></param>
-    /// <param name="errors"></param>
+    /// <param name="result"> Boolean value which indicates if request suceeded </param>
+    /// <param name="value"> If result succeeded property stores acquired data </param>
+    /// <param name="errors"> If result failed property stores returned errors </param>
     public readonly struct ApiResponse<T>(bool result, T? value, List<(string Property, string Message)>? errors)
     {
         /// <summary>

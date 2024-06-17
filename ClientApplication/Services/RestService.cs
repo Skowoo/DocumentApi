@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using RestSharp.Authenticators;
 using RestSharp;
 using System.Reflection;
+using ClientApplication.Interfaces;
 
 namespace ClientApplication.Services
 {
@@ -57,6 +58,8 @@ namespace ClientApplication.Services
             return new ApiResponse<TItem>(false, null, [("General", "Request failed without Validation errors!")]);
         }
 
+        public async Task<ApiResponse<TItem>> DeleteAsync(int id) => await DeleteAsync(id.ToString());
+
         public async Task<ApiResponse<TItem>> DeleteAsync(string id)
         {
             var request = new RestRequest($"/{typeof(TItem).Name}/Delete/{id}", Method.Delete);
@@ -69,8 +72,6 @@ namespace ClientApplication.Services
             return new ApiResponse<TItem>(false, null, [("General", "Request failed!")]);
         }
 
-        public async Task<ApiResponse<TItem>> DeleteAsync(int id) => await DeleteAsync(id.ToString());
-
         public async Task<ApiResponse<List<TItem>>> GetAllAsync()
         {
             var request = new RestRequest($"/{typeof(TItem).Name}/GetAll", Method.Get);
@@ -80,10 +81,8 @@ namespace ClientApplication.Services
                 var value = JsonConvert.DeserializeObject<List<TItem>>(response.Content!)!;
                 return new ApiResponse<List<TItem>>(true, value, null);
             }
-            else
-            {
-                return new ApiResponse<List<TItem>>(true, null, [("General", "Request Failed!")]);
-            }
+
+            return new ApiResponse<List<TItem>>(true, null, [("General", "Request Failed!")]);
         }
 
         public async Task<ApiResponse<TItem>> GetByIdAsync(string id)
@@ -96,6 +95,7 @@ namespace ClientApplication.Services
                 if (downloadedEntity is not null)
                     return new ApiResponse<TItem>(true, downloadedEntity, null);
             }
+
             return new ApiResponse<TItem>(false, null, [("General", "Translator not found!")]);
         }
 

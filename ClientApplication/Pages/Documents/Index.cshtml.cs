@@ -1,6 +1,6 @@
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ClientApplication.Services;
+using ClientApplication.Interfaces;
 
 namespace ClientApplication.Pages.Documents
 {

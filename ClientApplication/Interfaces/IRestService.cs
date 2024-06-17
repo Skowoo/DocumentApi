@@ -1,6 +1,6 @@
 ﻿using ClientApplication.Classes;
 
-namespace ClientApplication.Services
+namespace ClientApplication.Interfaces
 {
     public interface IRestService<TItem> where TItem : class
     {

@@ -19,6 +19,7 @@ namespace ClientApplication.Config
         {
             var deserializedToken = JsonConvert.DeserializeObject<string>(input);
             Token = $"Bearer {deserializedToken}";
+
             var handler = new JwtSecurityTokenHandler();
             var jwtSecurityToken = handler.ReadJwtToken(deserializedToken);
             Id = jwtSecurityToken.Claims.First(c => c.Type == "Id").Value;

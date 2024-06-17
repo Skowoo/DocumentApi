@@ -1,4 +1,5 @@
 ﻿using ClientApplication.Config;
+using ClientApplication.Interfaces;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;

@@ -2,8 +2,8 @@ using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ClientApplication.Services;
 using ClientApplication.Classes;
+using ClientApplication.Interfaces;
 
 namespace ClientApplication.Pages.Documents
 {

@@ -1,5 +1,6 @@
 using ClientApplication.Classes;
 using ClientApplication.Config;
+using ClientApplication.Interfaces;
 using ClientApplication.Services;
 
 namespace ClientApplication

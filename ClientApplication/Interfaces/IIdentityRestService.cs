@@ -1,7 +1,7 @@
 ﻿using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace ClientApplication.Services
+namespace ClientApplication.Interfaces
 {
     public interface IIdentityRestService
     {
