@@ -10,7 +10,7 @@ using ClientApplication.Interfaces;
 
 namespace ClientApplication.Services
 {
-    public class RestService<TItem> : IRestService<TItem> where TItem : class //class should be a domain entity - TBD.
+    public class RestService<TItem> : IRestService<TItem> where TItem : class
     {
         readonly RestClient Client;
 

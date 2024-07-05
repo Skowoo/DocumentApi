@@ -117,8 +117,7 @@ namespace DocumentApi.Web_IntegrationTests.DataFixtures
                 documents.Add(new Document
                 {
                     Title = $"Test Document {quantity}",
-                    SignsSize = random.Next(10, 100_000),
-                    CreatedAt = DateTime.Now.AddDays(random.Next(-10, 10)),
+                    SignsSize = random.Next(10, 10_000),
                     Deadline = DateTime.Now.AddDays(random.Next(15, 30)),
                     ClientId = random.Next(1, clientsCount),
                     TranslatorId = random.Next(1, translatorsCount * 2) > translatorsCount ? null : random.Next(0, translatorsCount),
