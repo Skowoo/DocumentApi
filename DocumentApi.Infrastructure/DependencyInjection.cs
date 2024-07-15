@@ -22,7 +22,7 @@ namespace DocumentApi.Infrastructure
 
             thisService.AddScoped<DbInitializer>();
             thisService.AddScoped<IUserService, UserService>();
-            thisService.AddScoped<ITimeProvider, GrpcTimeProvider>();
+            thisService.AddScoped<ITimeProvider, BasicTimeProvider>();
 
             thisService.AddScoped<IDocumentDbContext>(provider 
                 => provider.GetRequiredService<DocumentDbContext>());

@@ -2,7 +2,7 @@
 
 namespace DocumentApi.Infrastructure.Services
 {
-    public class GrpcTimeProvider : ITimeProvider
+    public class BasicTimeProvider: ITimeProvider
     {
         public DateTime GetCurrentTime() => DateTime.Now;
     }
