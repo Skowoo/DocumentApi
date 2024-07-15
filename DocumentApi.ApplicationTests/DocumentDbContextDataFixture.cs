@@ -26,7 +26,7 @@ namespace DocumentApi.ApplicationTests
         internal static ITimeProvider GetTimeProvider()
         {
             var timeProviderMock = new Mock<ITimeProvider>();
-            timeProviderMock.Setup(x => x.GetCurrentTimeAsync()).ReturnsAsync(DateTime.Now);
+            timeProviderMock.Setup(x => x.GetCurrentTime()).Returns(DateTime.Now);
             return timeProviderMock.Object;
         }
     }

@@ -21,14 +21,4 @@
     <ProjectReference Include="..\DocumentApi.Application\DocumentApi.Application.csproj" />
   </ItemGroup>
 
-	<ItemGroup>
-		<Protobuf Include="Protos\TimeService.proto" GrpcServices="Client" />
-	</ItemGroup>
-	
-  <ItemGroup>
-    <None Update="Protos\TimeService.proto">
-      <GrpcServices>Server</GrpcServices>
-    </None>
-  </ItemGroup>
-
 </Project>

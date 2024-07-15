@@ -2,6 +2,6 @@
 {
     public interface ITimeProvider
     {
-        Task<DateTime> GetCurrentTimeAsync();
+        DateTime GetCurrentTime();
     }
 }

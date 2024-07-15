@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using DocumentApi.Infrastructure.Data;
-using DocumentApi.Application.Common.Interfaces;
-using Moq;
 
 namespace DocumentApi.Web_IntegrationTests.DataFixtures
 {
@@ -18,13 +16,6 @@ namespace DocumentApi.Web_IntegrationTests.DataFixtures
 
                 var dbConnection = services.SingleOrDefault(d => d.ServiceType == typeof(DbConnection));
                 services.Remove(dbConnection!);
-
-                var grpcTimeService = services.SingleOrDefault(d => d.ServiceType == typeof(ITimeProvider));
-                services.Remove(grpcTimeService!);
-
-                var timeServiceMock = new Mock<ITimeProvider>();
-                timeServiceMock.Setup(x => x.GetCurrentTimeAsync()).ReturnsAsync(DateTime.Now);
-                services.AddSingleton(timeServiceMock.Object);
 
                 services
                     .AddEntityFrameworkInMemoryDatabase()

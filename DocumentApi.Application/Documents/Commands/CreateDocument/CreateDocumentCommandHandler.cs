@@ -12,7 +12,7 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument
             {
                 Title = request.Title,
                 SignsSize = request.SignsSize,
-                CreatedAt = await timeProvider.GetCurrentTimeAsync(),
+                CreatedAt = timeProvider.GetCurrentTime(),
                 Deadline = request.Deadline,
                 ClientId = request.ClientId,                
                 Client = await context.Clients.FindAsync([request.ClientId], cancellationToken),
