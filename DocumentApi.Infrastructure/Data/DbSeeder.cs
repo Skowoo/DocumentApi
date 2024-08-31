@@ -123,7 +123,7 @@ namespace DocumentApi.Infrastructure.Data
                 clientsCount = context.Clients.Count();
 
             List<Document> documents = [];
-            while (quantity-- > 0) 
+            while (quantity-- > 0)
             {
                 documents.Add(new Document
                 {

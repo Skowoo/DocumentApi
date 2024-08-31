@@ -14,7 +14,7 @@ namespace ClientApplication.Classes
         {
             var translatorsResult = await translatorService.GetAllAsync();
 
-            var selectListData = 
+            var selectListData =
                 new List<Translator> { new() { Name = DefaultSelectText } }
                 .Union([.. translatorsResult.Data!.OrderBy(x => x.Name)]);
 
@@ -22,10 +22,10 @@ namespace ClientApplication.Classes
         }
 
         public async Task<SelectList> GetClientsSelectListAsync()
-        {         
+        {
             var clientsResult = await clientService.GetAllAsync();
 
-            var selectListData = 
+            var selectListData =
                 new List<Client> { new() { Name = DefaultSelectText } }
                 .Union([.. clientsResult.Data!.OrderBy(x => x.Name)]);
 

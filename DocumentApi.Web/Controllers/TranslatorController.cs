@@ -20,7 +20,7 @@ namespace DocumentApi.Web.Controllers
         public Task<List<Translator>> GetAll() => sender.Send(new GetAllTranslatorsQuery());
 
         [HttpGet("{id}")]
-        public Task<Translator?> GetById (int id) => sender.Send(new GetTranslatorQuery(id));
+        public Task<Translator?> GetById(int id) => sender.Send(new GetTranslatorQuery(id));
 
         [HttpPost]
         public Task<int> Add(CreateTranslatorCommand command) => sender.Send(command);

@@ -1,7 +1,7 @@
+using ClientApplication.Interfaces;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ClientApplication.Interfaces;
 
 namespace ClientApplication.Pages.Documents
 {
@@ -14,14 +14,14 @@ namespace ClientApplication.Pages.Documents
         {
             var result = await documentService.GetByIdAsync(id);
             if (result.IsSuccess)
-                Document = result.Data!;            
+                Document = result.Data!;
             else
                 foreach (var error in result.ErrorDetails!)
                     ModelState.AddModelError(error.Property, error.Message);
         }
 
         public async Task<IActionResult> OnPostAsync(string id)
-        {            
+        {
             var result = await documentService.DeleteAsync(id);
             if (result.IsSuccess)
                 return RedirectToPage("/Documents/Index");

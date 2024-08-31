@@ -41,14 +41,14 @@ namespace DocumentApi.Web.Controllers
             return result.Succeeded ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> AddUserToRole(AppUser user)
         {
             var result = await identityService.AssignUserToRole(user.Login, user.Password);
-            return result.Succeeded? Ok(result) : BadRequest(result);
+            return result.Succeeded ? Ok(result) : BadRequest(result);
         }
 
-        [HttpDelete]
+        [HttpPut]
         public async Task<IActionResult> RemoveUserFromRole(AppUser user)
         {
             var result = await identityService.RemoveUserFromRole(user.Login, user.Password);

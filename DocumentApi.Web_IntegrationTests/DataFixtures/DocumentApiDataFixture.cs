@@ -1,7 +1,7 @@
 ﻿using DocumentApi.Domain.Entities;
 using DocumentApi.Infrastructure.Data;
-using Microsoft.AspNetCore.Identity;
 using DocumentApi.Web;
+using Microsoft.AspNetCore.Identity;
 using System.Net;
 
 namespace DocumentApi.Web_IntegrationTests.DataFixtures

@@ -6,16 +6,16 @@ namespace ClientApplication.Config
     public class CurrentUser
     {
         public string? Id { get; private set; }
-        
+
         public string? Login { get; private set; }
 
-        public IEnumerable<string>? Roles { get; private set;}
+        public IEnumerable<string>? Roles { get; private set; }
 
         public string? Token { get; private set; }
 
         public bool IsValid => Id is not null && Login is not null && Roles is not null && Token is not null;
 
-        public void LogInUser(string input) 
+        public void LogInUser(string input)
         {
             var deserializedToken = JsonConvert.DeserializeObject<string>(input);
             Token = $"Bearer {deserializedToken}";
@@ -27,9 +27,9 @@ namespace ClientApplication.Config
             Roles = jwtSecurityToken.Claims.Where(c => c.Type == "role").Select(x => x.Value).ToList();
         }
 
-        public void LogOutUser() 
+        public void LogOutUser()
         {
-            Id = null;            
+            Id = null;
             Login = null;
             Roles = null;
             Token = null;

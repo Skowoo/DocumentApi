@@ -28,7 +28,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.TranslatorController
             var returnedItem = JsonConvert.DeserializeObject<List<Translator>>(await response.Content.ReadAsStringAsync());
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.NotNull(returnedItem);            
+            Assert.NotNull(returnedItem);
             Assert.Contains(returnedItem, x => x.Id == 1);
             Assert.Contains(returnedItem, x => x.Id == 3);
         }

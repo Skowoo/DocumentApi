@@ -1,5 +1,5 @@
-﻿using FluentValidation.TestHelper;
-using FluentAssertions;
+﻿using FluentAssertions;
+using FluentValidation.TestHelper;
 using Xunit;
 
 namespace DocumentApi.Application.Clients.Commands.CreateClient.Tests
@@ -33,7 +33,7 @@ namespace DocumentApi.Application.Clients.Commands.CreateClient.Tests
         }
 
         [Theory]
-        [InlineData("test@test.pl", true)]        
+        [InlineData("test@test.pl", true)]
         [InlineData("test", false, "valid")]
         [InlineData("", false, "empty", 2)]
         [InlineData(null, false, "empty")]

@@ -1,8 +1,8 @@
-﻿using Xunit;
-using FluentValidation.TestHelper;
-using FluentAssertions;
-using DocumentApi.Application.Common.Interfaces;
+﻿using DocumentApi.Application.Common.Interfaces;
 using DocumentApi.ApplicationTests;
+using FluentAssertions;
+using FluentValidation.TestHelper;
+using Xunit;
 
 namespace DocumentApi.Application.Documents.Commands.UpdateDocument.Tests
 {
@@ -18,7 +18,7 @@ namespace DocumentApi.Application.Documents.Commands.UpdateDocument.Tests
         {
             var validator = new UpdateDocumentCommandValidator(contextMock);
             var command = new UpdateDocumentCommand()
-            {                
+            {
                 Title = "Name",
                 SignsSize = 100,
                 CreatedAt = DateTime.UtcNow,

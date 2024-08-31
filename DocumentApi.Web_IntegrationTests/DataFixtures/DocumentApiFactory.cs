@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using DocumentApi.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
-using DocumentApi.Infrastructure.Data;
 
 namespace DocumentApi.Web_IntegrationTests.DataFixtures
 {

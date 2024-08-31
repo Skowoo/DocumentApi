@@ -1,7 +1,7 @@
-﻿using Xunit;
-using Moq;
+﻿using DocumentApi.Application.Translators.Commands.CreateTranslator;
 using FluentValidation;
-using DocumentApi.Application.Translators.Commands.CreateTranslator;
+using Moq;
+using Xunit;
 
 namespace DocumentApi.Application.Common.Behaviours.Tests
 {

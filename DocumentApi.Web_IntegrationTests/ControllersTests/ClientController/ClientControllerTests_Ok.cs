@@ -52,7 +52,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.ClientController
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.NotNull(returnedItem);
-            Assert.Equal(1, returnedItem.Id);            
+            Assert.Equal(1, returnedItem.Id);
         }
 
         [Fact]

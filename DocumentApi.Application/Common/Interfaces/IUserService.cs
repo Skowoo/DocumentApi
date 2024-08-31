@@ -15,11 +15,11 @@ namespace DocumentApi.Application.Common.Interfaces
         Task<IdentityResult> AssignUserToRole(string userName, string roleName);
 
         Task<IdentityResult> RemoveUserFromRole(string userName, string roleName);
-               
+
         Task<List<IdentityUser>> GetAllUsers();
 
         Task<IdentityUser?> GetUserById(string id);
 
-        Task<List<IdentityRole>> GetAllRoles();       
+        Task<List<IdentityRole>> GetAllRoles();
     }
 }

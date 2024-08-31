@@ -1,9 +1,9 @@
 ﻿using DocumentApi.Application.Common.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
 using DocumentApi.Infrastructure.Data;
 using DocumentApi.Infrastructure.Identity.Auxiliary;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DocumentApi.Infrastructure.Identity.Services
 {

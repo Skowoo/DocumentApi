@@ -15,8 +15,8 @@ namespace ClientApplication.Pages.Clients
         public async Task<IActionResult> OnPostAsync()
         {
             var result = await clientService.CreateAsync(Client);
-            if (result.IsSuccess)            
-                return RedirectToPage("/Clients/Index");              
+            if (result.IsSuccess)
+                return RedirectToPage("/Clients/Index");
             else
                 foreach (var error in result.ErrorDetails!)
                     ModelState.TryAddModelError(error.Property, error.Message);

@@ -16,6 +16,6 @@
         public int ClientId { get; set; }
 
         public Translator? Translator { get; set; }
-        public int? TranslatorId {  get; set; }
+        public int? TranslatorId { get; set; }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using ClientApplication.Classes;
 using ClientApplication.Config;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using RestSharp.Authenticators;
-using RestSharp;
-using System.Reflection;
 using ClientApplication.Interfaces;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RestSharp;
+using RestSharp.Authenticators;
+using System.Reflection;
 
 namespace ClientApplication.Services
 {
@@ -53,7 +53,7 @@ namespace ClientApplication.Services
                         errorsParsed.Add((propertyName, errorMessage));
                     }
                     return new ApiResponse<TItem>(false, null, errorsParsed);
-                }               
+                }
             }
             return new ApiResponse<TItem>(false, null, [("General", "Request failed without Validation errors!")]);
         }

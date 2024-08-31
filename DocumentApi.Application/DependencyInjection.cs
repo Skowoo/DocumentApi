@@ -13,7 +13,8 @@ namespace DocumentApi.Application
             appServices.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             // Register MediatR
-            appServices.AddMediatR(cfg => { 
+            appServices.AddMediatR(cfg =>
+            {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()); // Register command and queries (taken from Assembly)
                 cfg.AddOpenBehavior(typeof(ValidationBehavior<,>)); // Register pipeline to activate validation
             });
