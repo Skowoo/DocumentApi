@@ -62,7 +62,7 @@ namespace DocumentApi.Web.Controllers
         public async Task<IActionResult> GetUserById(string id)
         {
             var result = await identityService.GetUserById(id);
-            return result is null ? BadRequest("User not found!") : Ok(result);
+            return result is not null ? Ok(result) : BadRequest("User not found!");
         }
 
         [HttpGet]

@@ -14,21 +14,21 @@ namespace DocumentApi.Web.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize(Roles = $"{Roles.User},{Roles.Administrator}")]
-    public class TranslatorController : ControllerBase
+    public class TranslatorController(ISender sender) : ControllerBase
     {
         [HttpGet]
-        public Task<List<Translator>> GetAll(ISender sender) => sender.Send(new GetAllTranslatorsQuery());
+        public Task<List<Translator>> GetAll() => sender.Send(new GetAllTranslatorsQuery());
 
         [HttpGet("{id}")]
-        public Task<Translator?> GetById (ISender sender, int id) => sender.Send(new GetTranslatorQuery(id));
+        public Task<Translator?> GetById (int id) => sender.Send(new GetTranslatorQuery(id));
 
         [HttpPost]
-        public Task<int> Add(ISender sender, CreateTranslatorCommand command) => sender.Send(command);
+        public Task<int> Add(CreateTranslatorCommand command) => sender.Send(command);
 
         [HttpPut]
-        public Task Update(ISender sender, UpdateTranslatorCommand command) => sender.Send(command);
+        public Task Update(UpdateTranslatorCommand command) => sender.Send(command);
 
         [HttpDelete("{id}")]
-        public Task Delete(ISender sender, int id) => sender.Send(new DeleteTranslatorCommand(id));
+        public Task Delete(int id) => sender.Send(new DeleteTranslatorCommand(id));
     }
 }

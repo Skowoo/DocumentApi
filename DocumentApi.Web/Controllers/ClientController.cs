@@ -14,21 +14,21 @@ namespace DocumentApi.Web.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize(Roles = $"{Roles.User},{Roles.Administrator}")]
-    public class ClientController() : ControllerBase
+    public class ClientController(ISender sender) : ControllerBase
     {
         [HttpGet]
-        public Task<List<Client>> GetAll(ISender sender) => sender.Send(new GetAllClientsQuery());
+        public Task<List<Client>> GetAll() => sender.Send(new GetAllClientsQuery());
 
         [HttpGet("{id}")]
-        public Task<Client?> GetById(ISender sender, int id) => sender.Send(new GetClientQuery(id));
+        public Task<Client?> GetById(int id) => sender.Send(new GetClientQuery(id));
 
         [HttpPost]
-        public Task<int> Add(ISender sender, CreateClientCommand command) => sender.Send(command);
+        public Task<int> Add(CreateClientCommand command) => sender.Send(command);
 
         [HttpPut]
-        public Task Update(ISender sender, UpdateClientCommand command) => sender.Send(command);
+        public Task Update(UpdateClientCommand command) => sender.Send(command);
 
         [HttpDelete("{id}")]
-        public Task Delete(ISender sender, int id) => sender.Send(new DeleteClientCommand(id));
+        public Task Delete(int id) => sender.Send(new DeleteClientCommand(id));
     }
 }
