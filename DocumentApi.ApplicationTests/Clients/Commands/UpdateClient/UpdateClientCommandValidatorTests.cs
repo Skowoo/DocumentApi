@@ -1,9 +1,8 @@
-﻿using Xunit;
-using FluentValidation.TestHelper;
-using FluentAssertions;
-using DocumentApi.Application.Common.Interfaces;
+﻿using DocumentApi.Application.Common.Interfaces;
 using DocumentApi.ApplicationTests;
-using DocumentApi.Application.Translators.Commands.UpdateTranslator;
+using FluentAssertions;
+using FluentValidation.TestHelper;
+using Xunit;
 
 namespace DocumentApi.Application.Clients.Commands.UpdateClient.Tests
 {

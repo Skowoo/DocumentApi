@@ -28,7 +28,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.TranslatorController
             var returnedItem = JsonConvert.DeserializeObject<List<Translator>>(await response.Content.ReadAsStringAsync());
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.NotNull(returnedItem);            
+            Assert.NotNull(returnedItem);
             Assert.Contains(returnedItem, x => x.Id == 1);
             Assert.Contains(returnedItem, x => x.Id == 3);
         }
@@ -52,6 +52,24 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.TranslatorController
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.NotNull(returnedItem);
             Assert.Equal(1, returnedItem.Id);
+        }
+
+        [Fact]
+        public async Task GetById_ShouldReturnNotFoundWhenNoData()
+        {
+            HttpRequestMessage request = new()
+            {
+                RequestUri = new Uri("https://localhost:7176/api/Translator/GetById/100"),
+                Method = HttpMethod.Get,
+                Headers =
+                {
+                    {HttpRequestHeader.Authorization.ToString(), fixture.AdminToken}
+                }
+            };
+
+            var response = await client.SendAsync(request);
+
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]
@@ -153,7 +171,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.TranslatorController
 
             var response = await client.SendAsync(request);
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
             HttpRequestMessage checkRequest = new()
             {
@@ -167,7 +185,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.TranslatorController
 
             var checkResponse = await client.SendAsync(checkRequest);
 
-            Assert.Equal(HttpStatusCode.NoContent, checkResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.NotFound, checkResponse.StatusCode);
         }
     }
 }

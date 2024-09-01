@@ -17,7 +17,7 @@ namespace DocumentApi.Application.Documents.Commands.CreateDocument
             RuleFor(x => x.Deadline)
                 .NotEmpty();
 
-            RuleFor(x => x.Deadline )
+            RuleFor(x => x.Deadline)
                 .Must(x => timeProvider.GetCurrentTime() <= x)
                 .WithMessage("Deadline must be after the creation date!");
 

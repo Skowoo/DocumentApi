@@ -6,7 +6,7 @@ namespace DocumentApi.Application.Clients.Queries.GetClient
 {
     public class GetClientQueryHandler(IDocumentDbContext context) : IRequestHandler<GetClientQuery, Client?>
     {
-        public async Task<Client?> Handle(GetClientQuery request, CancellationToken cancellationToken) 
+        public async Task<Client?> Handle(GetClientQuery request, CancellationToken cancellationToken)
             => await context.Clients.FindAsync([request.Id], cancellationToken);
     }
 }

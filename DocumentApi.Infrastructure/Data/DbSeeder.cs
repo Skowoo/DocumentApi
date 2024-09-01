@@ -123,12 +123,13 @@ namespace DocumentApi.Infrastructure.Data
                 clientsCount = context.Clients.Count();
 
             List<Document> documents = [];
-            while (quantity-- > 0) 
+            while (quantity-- > 0)
             {
                 documents.Add(new Document
                 {
                     Title = $"Document {quantity}",
                     SignsSize = random.Next(10, 10_000),
+                    CreatedAt = DateTime.Now.AddDays(random.Next(-30, 0)),
                     Deadline = DateTime.Now.AddDays(random.Next(15, 30)),
                     ClientId = random.Next(1, clientsCount),
                     TranslatorId = random.Next(1, translatorsCount * 2) > translatorsCount ? null : random.Next(0, translatorsCount),

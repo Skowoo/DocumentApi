@@ -40,8 +40,8 @@ namespace ClientApplication.Services
 
         public async Task<IdentityResult> AssignUserToRole(string userName, string roleName)
         {
-            var request = new RestRequest("AddUserToRole", Method.Post);
-            var payload = System.Text.Json.JsonSerializer.Serialize(new AppUser { Login = userName, Password = roleName});
+            var request = new RestRequest("AddUserToRole", Method.Put);
+            var payload = System.Text.Json.JsonSerializer.Serialize(new AppUser { Login = userName, Password = roleName });
             request.AddJsonBody(payload);
             var response = await restClient.ExecuteAsync(request);
             return JsonConvert.DeserializeObject<IdentityResult>(response.Content!)!;
@@ -49,7 +49,7 @@ namespace ClientApplication.Services
 
         public async Task<IdentityResult> RemoveUserFromRole(string userName, string roleName)
         {
-            var request = new RestRequest("RemoveUserFromRole", Method.Delete);
+            var request = new RestRequest("RemoveUserFromRole", Method.Put);
             var payload = System.Text.Json.JsonSerializer.Serialize(new AppUser { Login = userName, Password = roleName });
             request.AddJsonBody(payload);
             var response = await restClient.ExecuteAsync(request);
@@ -73,7 +73,7 @@ namespace ClientApplication.Services
                 return null;
         }
 
-        public async Task<List<IdentityRole>> GetAllRoles() 
+        public async Task<List<IdentityRole>> GetAllRoles()
         {
             var request = new RestRequest("GetAllRoles", Method.Get);
             var response = await restClient.ExecuteAsync(request);

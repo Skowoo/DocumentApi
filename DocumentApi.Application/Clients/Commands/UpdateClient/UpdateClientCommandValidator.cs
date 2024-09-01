@@ -22,6 +22,6 @@ namespace DocumentApi.Application.Clients.Commands.UpdateClient
             RuleFor(x => x.TelephoneNumber)
                 .NotEmpty()
                 .Length(9, 12);
-        }        
+        }
     }
 }

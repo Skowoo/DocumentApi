@@ -1,7 +1,7 @@
-﻿using System.Net;
-using DocumentApi.Web_IntegrationTests.DataFixtures;
-using DocumentApi.Application.Documents.Commands.CreateDocument;
+﻿using DocumentApi.Application.Documents.Commands.CreateDocument;
 using DocumentApi.Application.Documents.Commands.UpdateDocument;
+using DocumentApi.Web_IntegrationTests.DataFixtures;
+using System.Net;
 
 namespace DocumentApi.Web_IntegrationTests.ControllersTests.DocumentController
 {

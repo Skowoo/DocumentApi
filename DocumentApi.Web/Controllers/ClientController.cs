@@ -5,6 +5,7 @@ using DocumentApi.Application.Clients.Queries.GetAllClients;
 using DocumentApi.Application.Clients.Queries.GetClient;
 using DocumentApi.Domain.Constants;
 using DocumentApi.Domain.Entities;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,21 +15,41 @@ namespace DocumentApi.Web.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize(Roles = $"{Roles.User},{Roles.Administrator}")]
-    public class ClientController() : ControllerBase
+    public class ClientController(ISender sender) : ControllerBase
     {
         [HttpGet]
-        public Task<List<Client>> GetAll(ISender sender) => sender.Send(new GetAllClientsQuery());
+        [ProducesResponseType(typeof(List<Client>), 200)]
+        public async Task<IActionResult> GetAll() => Ok(await sender.Send(new GetAllClientsQuery()));
 
         [HttpGet("{id}")]
-        public Task<Client?> GetById(ISender sender, int id) => sender.Send(new GetClientQuery(id));
+        [ProducesResponseType(typeof(Client), 200)]
+        [ProducesResponseType(typeof(int), 404)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await sender.Send(new GetClientQuery(id));
+            return result is not null ? Ok(result) : NotFound(id);
+        }
 
         [HttpPost]
-        public Task<int> Add(ISender sender, CreateClientCommand command) => sender.Send(command);
+        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(ValidationFailure), 400)]
+        public async Task<IActionResult> Add(CreateClientCommand command) => Ok(await sender.Send(command));
 
         [HttpPut]
-        public Task Update(ISender sender, UpdateClientCommand command) => sender.Send(command);
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ValidationFailure), 400)]
+        public async Task<IActionResult> Update(UpdateClientCommand command)
+        {
+            await sender.Send(command);
+            return Ok();
+        }
 
         [HttpDelete("{id}")]
-        public Task Delete(ISender sender, int id) => sender.Send(new DeleteClientCommand(id));
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await sender.Send(new DeleteClientCommand(id));
+            return NoContent();
+        }
     }
 }

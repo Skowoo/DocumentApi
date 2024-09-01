@@ -8,8 +8,8 @@ namespace DocumentApi.Application.Common.Behaviours
         : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommandBase
     {
         public async Task<TResponse> Handle(
-            TRequest request, 
-            RequestHandlerDelegate<TResponse> next, 
+            TRequest request,
+            RequestHandlerDelegate<TResponse> next,
             CancellationToken cancellationToken)
         {
             ValidationContext<TRequest>? context = new(request);

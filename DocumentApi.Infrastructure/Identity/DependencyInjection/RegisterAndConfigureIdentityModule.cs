@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using DocumentApi.Infrastructure.Data;
+﻿using DocumentApi.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DocumentApi.Infrastructure.Identity.DependencyInjection
 {

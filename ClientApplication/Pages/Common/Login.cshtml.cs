@@ -21,7 +21,7 @@ namespace ClientApplication.Pages.AdminPanel
             {
                 ["login"] = Request.Form["login"].ToString(),
                 ["password"] = Request.Form["password"].ToString()
-            };            
+            };
             request.AddStringBody(payload.ToString(), DataFormat.Json);
 
             var result = client.ExecutePostAsync(request).Result;
@@ -38,7 +38,7 @@ namespace ClientApplication.Pages.AdminPanel
                 return Page();
             }
 
-            return Page();            
+            return Page();
         }
     }
 }

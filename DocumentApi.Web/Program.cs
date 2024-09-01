@@ -1,8 +1,8 @@
-using DocumentApi.Infrastructure;
 using DocumentApi.Application;
-using Microsoft.OpenApi.Models;
-using DocumentApi.Web.Middleware;
+using DocumentApi.Infrastructure;
 using DocumentApi.Infrastructure.Data;
+using DocumentApi.Web.Middleware;
+using Microsoft.OpenApi.Models;
 
 namespace DocumentApi.Web
 {
@@ -41,7 +41,7 @@ namespace DocumentApi.Web
                                 Id = "Bearer"
                             }
                         },
-                        Array.Empty<string>() 
+                        Array.Empty<string>()
                     }
                 });
             });
@@ -57,7 +57,7 @@ namespace DocumentApi.Web
 
             // Use Swagger in development mode only:
             if (app.Environment.IsDevelopment())
-            {                
+            {
                 app.UseSwagger();
                 app.UseSwaggerUI();
                 app.Map("/", () => Results.Redirect("/swagger"));

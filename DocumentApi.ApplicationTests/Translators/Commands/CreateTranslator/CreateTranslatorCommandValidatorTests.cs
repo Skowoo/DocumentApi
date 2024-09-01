@@ -1,6 +1,6 @@
-﻿using Xunit;
+﻿using FluentAssertions;
 using FluentValidation.TestHelper;
-using FluentAssertions;
+using Xunit;
 
 namespace DocumentApi.Application.Translators.Commands.CreateTranslator.Tests
 {

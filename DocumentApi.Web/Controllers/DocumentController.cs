@@ -5,30 +5,51 @@ using DocumentApi.Application.Documents.Queries.GetAllDocuments;
 using DocumentApi.Application.Documents.Queries.GetDocument;
 using DocumentApi.Domain.Constants;
 using DocumentApi.Domain.Entities;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentApi.Web.Controllers
 {
-    [Route("api/[controller]/[action]")] // Route to controller
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize(Roles = $"{Roles.User},{Roles.Administrator}")]
-    public class DocumentController : ControllerBase
+    public class DocumentController(ISender sender) : ControllerBase
     {
         [HttpGet]
-        public Task<List<Document>> GetAll(ISender sender) => sender.Send(new GetAllDocumentsQuery());
+        [ProducesResponseType(typeof(List<Document>), 200)]
+        public async Task<IActionResult> GetAll() => Ok(await sender.Send(new GetAllDocumentsQuery()));
 
-        [HttpGet("{id}")] // Endpoint adress - in parenthesis additional route element to avoid targeting multiple endpoints at once
-        public Task<Document?> GetById(ISender sender, Guid id) => sender.Send(new GetDocumentQuery(id));
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Document), 200)]
+        [ProducesResponseType(typeof(Guid), 404)]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var result = await sender.Send(new GetDocumentQuery(id));
+            return result is not null ? Ok(result) : NotFound(id);
+        }
 
         [HttpPost]
-        public Task<Guid> Add(ISender sender, CreateDocumentCommand command) => sender.Send(command);
+        [ProducesResponseType(typeof(Guid), 200)]
+        [ProducesResponseType(typeof(ValidationFailure), 400)]
+        public async Task<IActionResult> Add(CreateDocumentCommand command) => Ok(await sender.Send(command));
 
         [HttpPut]
-        public Task Update(ISender sender, UpdateDocumentCommand command) => sender.Send(command);
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ValidationFailure), 400)]
+        public async Task<IActionResult> Update(UpdateDocumentCommand command)
+        {
+            await sender.Send(command);
+            return Ok();
+        }
 
         [HttpDelete("{id}")]
-        public Task Delete(ISender sender, Guid id) => sender.Send(new DeleteDocumentCommand(id));
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await sender.Send(new DeleteDocumentCommand(id));
+            return NoContent();
+        }
     }
 }

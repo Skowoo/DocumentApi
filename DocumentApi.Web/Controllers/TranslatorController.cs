@@ -5,6 +5,7 @@ using DocumentApi.Application.Translators.Queries.GetAllTranslators;
 using DocumentApi.Application.Translators.Queries.GetTranslator;
 using DocumentApi.Domain.Constants;
 using DocumentApi.Domain.Entities;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,21 +15,41 @@ namespace DocumentApi.Web.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize(Roles = $"{Roles.User},{Roles.Administrator}")]
-    public class TranslatorController : ControllerBase
+    public class TranslatorController(ISender sender) : ControllerBase
     {
         [HttpGet]
-        public Task<List<Translator>> GetAll(ISender sender) => sender.Send(new GetAllTranslatorsQuery());
+        [ProducesResponseType(typeof(List<Translator>), 200)]
+        public async Task<IActionResult> GetAll() => Ok(await sender.Send(new GetAllTranslatorsQuery()));
 
         [HttpGet("{id}")]
-        public Task<Translator?> GetById (ISender sender, int id) => sender.Send(new GetTranslatorQuery(id));
+        [ProducesResponseType(typeof(Translator), 200)]
+        [ProducesResponseType(typeof(int), 404)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await sender.Send(new GetTranslatorQuery(id));
+            return result is not null ? Ok(result) : NotFound(id);
+        }
 
         [HttpPost]
-        public Task<int> Add(ISender sender, CreateTranslatorCommand command) => sender.Send(command);
+        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(ValidationFailure), 400)]
+        public async Task<IActionResult> Add(CreateTranslatorCommand command) => Ok(await sender.Send(command));
 
         [HttpPut]
-        public Task Update(ISender sender, UpdateTranslatorCommand command) => sender.Send(command);
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ValidationFailure), 400)]
+        public async Task<IActionResult> Update(UpdateTranslatorCommand command)
+        {
+            await sender.Send(command);
+            return Ok();
+        }
 
         [HttpDelete("{id}")]
-        public Task Delete(ISender sender, int id) => sender.Send(new DeleteTranslatorCommand(id));
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await sender.Send(new DeleteTranslatorCommand(id));
+            return NoContent();
+        }
     }
 }

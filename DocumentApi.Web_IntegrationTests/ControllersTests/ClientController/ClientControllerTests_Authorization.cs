@@ -1,7 +1,7 @@
-using System.Net;
 using DocumentApi.Application.Clients.Commands.CreateClient;
 using DocumentApi.Application.Clients.Commands.UpdateClient;
 using DocumentApi.Web_IntegrationTests.DataFixtures;
+using System.Net;
 
 namespace DocumentApi.Web_IntegrationTests.ControllersTests.ClientController
 {
@@ -36,10 +36,10 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.ClientController
                 RequestUri = new Uri("https://localhost:7176/api/Client/Add"),
                 Method = HttpMethod.Post,
                 Headers =
-                    {                        
+                    {
                         {HttpRequestHeader.ContentType.ToString(), "application/json"}
                     },
-                Content = JsonContent.Create(new CreateClientCommand() { Name = "ValidName", Email = "valid@email.pl", TelephoneNumber = "1234567890"}),
+                Content = JsonContent.Create(new CreateClientCommand() { Name = "ValidName", Email = "valid@email.pl", TelephoneNumber = "1234567890" }),
             };
 
             var response = await client.SendAsync(request);

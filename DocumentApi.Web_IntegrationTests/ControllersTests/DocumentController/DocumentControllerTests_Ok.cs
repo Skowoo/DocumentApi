@@ -58,6 +58,24 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.DocumentController
         }
 
         [Fact]
+        public async Task GetById_ShouldReturnNotFoundWhenNoData()
+        {
+            HttpRequestMessage request = new()
+            {
+                RequestUri = new Uri($"https://localhost:7176/api/Document/GetById/{Guid.NewGuid()}"),
+                Method = HttpMethod.Get,
+                Headers =
+                {
+                    {HttpRequestHeader.Authorization.ToString(), fixture.AdminToken}
+                }
+            };
+
+            var response = await client.SendAsync(request);
+
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact]
         public async Task Add_ShouldReturnOkAndReturnNewId()
         {
             // Main request
@@ -167,7 +185,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.DocumentController
 
             var response = await client.SendAsync(request);
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
             HttpRequestMessage checkRequest = new()
             {
@@ -181,7 +199,7 @@ namespace DocumentApi.Web_IntegrationTests.ControllersTests.DocumentController
 
             var checkResponse = await client.SendAsync(checkRequest);
 
-            Assert.Equal(HttpStatusCode.NoContent, checkResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.NotFound, checkResponse.StatusCode);
         }
     }
 }

@@ -1,7 +1,7 @@
+using ClientApplication.Interfaces;
 using DocumentApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ClientApplication.Interfaces;
 
 namespace ClientApplication.Pages.Clients
 {
@@ -21,7 +21,7 @@ namespace ClientApplication.Pages.Clients
                     ModelState.TryAddModelError(error.Property, error.Message);
         }
 
-        public async Task <IActionResult> OnPostAsync(int id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             var result = await clientService.DeleteAsync(id);
             if (result.IsSuccess)

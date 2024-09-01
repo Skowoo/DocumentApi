@@ -16,7 +16,7 @@ namespace DocumentApi.Application.Clients.Commands.CreateClient
             };
 
             context.Clients.Add(newClientEntity);
-            
+
             await context.SaveChangesAsync(cancellationToken);
 
             return newClientEntity.Id;
